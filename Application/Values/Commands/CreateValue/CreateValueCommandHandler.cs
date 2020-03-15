@@ -29,8 +29,7 @@ namespace Application.Values.Commands.CreateValue
 
             var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            if (success)
-                return entity.ValueId;
+            if (success) return entity.ValueId;
         
             throw new Exception("Problem saving changes");
 

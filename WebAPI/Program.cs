@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Persistance;
 using Persistance.Seed;
 using Serilog;
@@ -16,31 +17,25 @@ namespace WebApplicationTemplate
     {
         public static async Task Main(string[] args)
         {
-    
+            var host = CreateHostBuilder(args)
+                .Build();
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            ConsoleLogInformation();
             try
             {
-
-                var host = CreateHostBuilder(args)
-                    .Build();
-
-                ConsoleLogInformation();
-                using var scope = host.Services.CreateScope();
-                var services = scope.ServiceProvider;
-
                 var context = services.GetRequiredService<TemplateDbContext>();
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 await context.Database.MigrateAsync();
                 await SeedData.SeedDataAsync(context,userManager);
-
-                host.Run();
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "The Application failed to Start correctly!");
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred while migrating or seeding the database.");
             }
-            finally {
-                Log.CloseAndFlush();
-            }
+            Console.WriteLine($"Opening APP....");
+            await host.RunAsync();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -61,7 +56,7 @@ namespace WebApplicationTemplate
 -----*******************************************---
 ---------------------------------------------------"
             );
-            Log.Information("APP Starting: Welcome To TemplateName");
+            Console.WriteLine($"Welcome To {nameof(WebApplicationTemplate)}");
         }       
 
     }

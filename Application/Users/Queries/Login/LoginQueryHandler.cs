@@ -28,7 +28,7 @@ namespace Application.Users.Queries.Login
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
-            if (user == null)
+            if (user is null)
             {
                 throw new RestException(HttpStatusCode.Unauthorized);
             }

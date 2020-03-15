@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application._CustomExceptions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistance;
@@ -29,8 +30,8 @@ namespace Application.Values.Queries.GetValuesList
                 .ProjectTo<ValuesListDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            if (result == null)
-                throw new RestException(HttpStatusCode.NotFound, new { Values = "Not Found" });
+            if (result is null)
+                throw new RestException(HttpStatusCode.NotFound, new { Value = $"{nameof(Value)} not found" });
 
             return result;
         }

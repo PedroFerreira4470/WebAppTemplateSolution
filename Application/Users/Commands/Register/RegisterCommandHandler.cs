@@ -30,7 +30,7 @@ namespace Application.Users.Commands.Register
             if (_context.Users.Where(p => p.Email == request.Email).Any())
                 throw new RestException(HttpStatusCode.BadRequest, "Email Already Exist");
             if (_context.Users.Where(p => p.UserName == request.UserName).Any())
-                throw new RestException(HttpStatusCode.BadRequest, "UserName Already Exist");
+                throw new RestException(HttpStatusCode.BadRequest, "Username Already Exist");
 
             var user = new User
             {
