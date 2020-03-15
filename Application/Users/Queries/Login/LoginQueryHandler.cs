@@ -14,26 +14,26 @@ namespace Application.Users.Queries.Login
 {
     public class LoginQueryHandler : IRequestHandler<LoginQuery, UserDto>
     {
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
-        private readonly IJwtGenerator jwtGenerator;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IJwtGenerator _jwtGenerator;
 
         public LoginQueryHandler(UserManager<User> userManager, SignInManager<User> signInManager, IJwtGenerator jwtGenerator)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.jwtGenerator = jwtGenerator;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _jwtGenerator = jwtGenerator;
         }
         public async Task<UserDto> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var user = await userManager.FindByEmailAsync(request.Email);
+            var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user == null)
             {
                 throw new RestException(HttpStatusCode.Unauthorized);
             }
 
-            var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
             if (result.Succeeded)
             {
@@ -41,7 +41,7 @@ namespace Application.Users.Queries.Login
                 return new UserDto
                 {
                     DisplayName = user.DisplayName,
-                    Token = jwtGenerator.CreateToken(user),
+                    Token = _jwtGenerator.CreateToken(user),
                     UserName = user.UserName,
                 };
             }
