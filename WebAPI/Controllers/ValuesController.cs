@@ -10,6 +10,7 @@ namespace WebAPI.Controllers
     public class ValuesController : BaseController
     {
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<ValuesListDto>>> GetAll()
         {
             return await Mediator.Send(new GetValuesListQuery());

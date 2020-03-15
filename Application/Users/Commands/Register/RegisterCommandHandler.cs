@@ -1,12 +1,10 @@
-﻿using Application.Errors;
-using Application.Interfaces;
+﻿using Application._CustomExceptions;
+using Application._Interfaces;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Persistance;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;

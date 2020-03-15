@@ -1,52 +1,68 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Domain.Entities;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Persistance;
 using Persistance.Seed;
+using Serilog;
 
 namespace WebApplicationTemplate
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            using var scope = host.Services.CreateScope();
-            var services = scope.ServiceProvider;
+    
             try
             {
-                var context = services.GetRequiredService<Persistance.TemplateDbContext>();
-                context.Database.Migrate();
-                _ =  Seed.SeedDataAsync(context);
 
+                var host = CreateHostBuilder(args)
+                    .Build();
+
+                ConsoleLogInformation();
+                using var scope = host.Services.CreateScope();
+                var services = scope.ServiceProvider;
+
+                var context = services.GetRequiredService<TemplateDbContext>();
+                var userManager = services.GetRequiredService<UserManager<User>>();
+                await context.Database.MigrateAsync();
+                await SeedData.SeedDataAsync(context,userManager);
+
+                host.Run();
             }
             catch (Exception ex)
             {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "Error ocurr during migration!");
-                throw;
+                Log.Fatal(ex, "The Application failed to Start correctly!");
             }
-            host.Run();
+            finally {
+                Log.CloseAndFlush();
+            }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.AddConsole();
-                    logging.AddDebug();
-                })
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static void ConsoleLogInformation()
+        {
+            Console.WriteLine(
+            @"
+---------------------------------------------------
+-----*******************************************---
+-----***************TemplateName****************---
+-----*******************************************---
+---------------------------------------------------"
+            );
+            Log.Information("APP Starting: Welcome To TemplateName");
+        }       
+
     }
 }

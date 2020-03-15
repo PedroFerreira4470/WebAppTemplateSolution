@@ -4,7 +4,7 @@ using Domain.Extensions;
 
 namespace Domain.Entities
 {
-    public class Order : IActive, IAuditable
+    public class Order : Auditable, IActive
     {
         public int OrderId { get; private set; }
         public string OrderName { get; set; }
@@ -12,9 +12,5 @@ namespace Domain.Entities
         public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
         public bool IsActive { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime Created { get; set; }
-        public int LastModifiedBy { get; set; }
-        public DateTime? LastModified { get; set; }
     }
 }

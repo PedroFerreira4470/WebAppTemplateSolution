@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Domain.Entities
 {
-    public class Customer : IActive, IAuditable
+    public class Customer : Auditable, IActive
     {
         public Customer()
         {
@@ -18,10 +18,6 @@ namespace Domain.Entities
         public string PostalCode { get; set; }
         public string Country { get; set; }
         public bool IsActive { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime Created { get; set; }
-        public int LastModifiedBy { get; set; }
-        public DateTime? LastModified { get; set; }
 
         public ICollection<Order> Orders { get; }
     }

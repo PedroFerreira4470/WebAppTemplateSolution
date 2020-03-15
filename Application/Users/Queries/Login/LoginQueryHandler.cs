@@ -1,5 +1,5 @@
-﻿using Application.Errors;
-using Application.Interfaces;
+﻿using Application._CustomExceptions;
+using Application._Interfaces;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

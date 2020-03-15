@@ -1,6 +1,6 @@
-﻿using Application.Errors;
+﻿using Application._CustomExceptions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Net;
 using System.Text.Json;
@@ -10,41 +10,39 @@ namespace WebAPI.Middleware
 {
     public class ErrorHandlingMiddleware
     {
-        private readonly RequestDelegate next;
-        private readonly ILogger<ErrorHandlingMiddleware> logger;
+        private readonly RequestDelegate _next;
 
-        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+        public ErrorHandlingMiddleware(RequestDelegate next)
         {
-            this.next = next;
-            this.logger = logger;
+            _next = next;
         }
 
         public async Task Invoke(HttpContext context)
         {
             try
             {
-               await next(context);
+                await _next(context);
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex, logger);
+                await HandleExceptionAsync(context, ex);
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception ex, ILogger<ErrorHandlingMiddleware> logger)
+        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             object errors = null;
 
             switch (ex)
             {
                 case RestException re:
-                    logger.LogError(ex, "REST ERROR");
+                    Log.Error($"REST ERROR: { (int)re.Code } {re.Errors}",re);
                     errors = re.Errors;
                     context.Response.StatusCode = (int)re.Code;
                     break;
                 case Exception e:
-                    logger.LogError(e, "SERVER ERROR");
-                    errors = String.IsNullOrWhiteSpace(e.Message) ? "ERROR" : e.Message;
+                    Log.Error($"SERVER ERROR: { (int)HttpStatusCode.InternalServerError } {e.Message}",e);
+                    errors = String.IsNullOrWhiteSpace(e.Message) ? "Something went wrong" : e.Message;
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }

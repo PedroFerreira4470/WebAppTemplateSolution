@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
+using Application._CustomExceptions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -24,10 +25,10 @@ namespace Application.Values.Queries.GetValuesList
 
         public async Task<List<ValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
         {
-
             var result = await _context.Values
                 .ProjectTo<ValuesListDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
+
             if (result == null)
                 throw new RestException(HttpStatusCode.NotFound, new { Values = "Not Found" });
 

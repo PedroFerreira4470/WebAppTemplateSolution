@@ -1,9 +1,6 @@
 ﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Application.Interfaces
+namespace Application._Interfaces
 {
     public interface IJwtGenerator
     {

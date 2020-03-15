@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Persistance.EntitiesConfigurations;
 
 namespace Persistance.Configurations
 {
@@ -29,6 +30,15 @@ namespace Persistance.Configurations
 
             builder.Property(e => e.PostalCode)
                 .HasColumnType("varchar(10)");
+
+            //pass this two fields from the base entity to a generic confi to remove redundance
+            //https://stackoverflow.com/questions/53275567/how-to-apply-common-configuration-to-all-entities-in-ef-core
+            builder.Property(e => e.CreatedBy)
+               .IsRequired()
+               .HasColumnType("nvarchar(50)");
+            builder.Property(e => e.CreatedBy)
+                .IsRequired()
+                .HasColumnType("nvarchar(50)");
 
             builder.HasMany(c => c.Orders)
                 .WithOne(o => o.Customer)

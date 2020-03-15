@@ -6,7 +6,7 @@ using System.Text;
 namespace Application.Values.Queries.GetValuesList
 {
    public class GetValuesListQuery : IRequest<List<ValuesListDto>>
-    {
+   {
         //No params
-    }
+   }
 }

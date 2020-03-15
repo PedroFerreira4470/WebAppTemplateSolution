@@ -1,5 +1,5 @@
 using Application;
-using Application.Interfaces;
+using Application._Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using System.Linq;
 using NSwag.Generation.Processors.Security;
 using NSwag;
+using Serilog;
 
 namespace WebApplicationTemplate
 {
@@ -29,6 +30,15 @@ namespace WebApplicationTemplate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var conf = new ConfigurationBuilder()
+               .AddJsonFile("appsettings.json")
+               .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(conf)
+                .CreateLogger();
+
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
                     policy.AllowAnyHeader()
@@ -41,9 +51,9 @@ namespace WebApplicationTemplate
 
             services.AddInfrastructure(Configuration);
             services.AddPersistence(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddApplication(Configuration);
+            services.AddApplication();
 
-            services.AddLogging();
+            //services.AddLogging();
          
             services.AddHealthChecks()
                .AddDbContextCheck<TemplateDbContext>();
@@ -83,20 +93,16 @@ namespace WebApplicationTemplate
                     settings.DocumentTitle = "TemplateProjet";
                     settings.EnableTryItOut = true;
                 });
-                //app.UseReDoc();
                 
 
             }
 
             app.UseHealthChecks("/health");
             //app.UseHttpsRedirection();
-
-
+            //app.UseSerilogRequestLogging();
             app.UseRouting();
             app.UseCors("CorsPolicy");
-            //who are you?
             app.UseAuthentication();
-            //are you allowed?
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
