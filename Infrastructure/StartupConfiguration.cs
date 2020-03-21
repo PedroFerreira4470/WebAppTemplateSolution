@@ -1,5 +1,4 @@
-﻿using Application._Interfaces;
-using Infrastructure.Security;
+﻿using Infrastructure.Security;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +8,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Persistance;
+using Application.Common.Interfaces;
+using Infrastructure.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
@@ -19,8 +20,11 @@ namespace Infrastructure
         {
             services.AddScoped<IJwtGenerator, JwsGenerator>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-
-
+            services.AddDbContextPool<TemplateDbContext>(options =>
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")
+                    , b => b.MigrationsAssembly(typeof(TemplateDbContext).Assembly.FullName))
+                );
+            services.AddScoped<ITemplateDbContext>(provider => provider.GetService<TemplateDbContext>());
             var builder = services.AddIdentityCore<User>();
             var identitybuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identitybuilder.AddEntityFrameworkStores<TemplateDbContext>();

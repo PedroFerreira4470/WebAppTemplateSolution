@@ -1,13 +1,12 @@
-﻿using Application._CustomExceptions;
-using Application._Interfaces;
+﻿
+using Application.Common.CustomExceptions;
+using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Persistance;
 using System;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,11 +14,11 @@ namespace Application.Users.Commands.Register
 {
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDto>
     {
-        private readonly TemplateDbContext _context;
+        private readonly ITemplateDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IJwtGenerator _jwt;
 
-        public RegisterCommandHandler(TemplateDbContext context, UserManager<User> userManager, IJwtGenerator jwt)
+        public RegisterCommandHandler(ITemplateDbContext context, UserManager<User> userManager, IJwtGenerator jwt)
         {
             _context = context;
             _userManager = userManager;

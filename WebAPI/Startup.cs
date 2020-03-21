@@ -1,11 +1,9 @@
 using Application;
-using Application._Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Persistance;
 using WebAPI.Middleware;
 using FluentValidation.AspNetCore;
 using Infrastructure;
@@ -15,6 +13,8 @@ using System.Linq;
 using NSwag.Generation.Processors.Security;
 using NSwag;
 using Serilog;
+using Infrastructure.Persistance;
+using Application.Common.Interfaces;
 
 namespace WebApplicationTemplate
 {
@@ -50,7 +50,6 @@ namespace WebApplicationTemplate
             });
 
             services.AddInfrastructure(Configuration);
-            services.AddPersistence(Configuration.GetConnectionString("DefaultConnection"));
             services.AddApplication();
 
             //services.AddLogging();
@@ -93,10 +92,7 @@ namespace WebApplicationTemplate
                     settings.DocumentTitle = "TemplateProjet";
                     settings.EnableTryItOut = true;
                 });
-                
-
             }
-
             app.UseHealthChecks("/health");
             //app.UseHttpsRedirection();
             //app.UseSerilogRequestLogging();

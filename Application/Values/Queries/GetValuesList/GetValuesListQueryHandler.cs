@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application._CustomExceptions;
+using Application.Common.CustomExceptions;
+using Application.Common.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Persistance;
 
 namespace Application.Values.Queries.GetValuesList
 {
     public class GetValuesListQueryHandler : IRequestHandler<GetValuesListQuery, List<ValuesListDto>>
     {
-        private readonly TemplateDbContext _context;
+        private readonly ITemplateDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetValuesListQueryHandler(TemplateDbContext context, IMapper mapper)
+        public GetValuesListQueryHandler(ITemplateDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

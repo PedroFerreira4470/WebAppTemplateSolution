@@ -1,12 +1,9 @@
-﻿using Application._CustomExceptions;
-using Application._Interfaces;
+﻿using Application.Common.CustomExceptions;
+using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -1,10 +1,6 @@
-﻿using Application._Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Application

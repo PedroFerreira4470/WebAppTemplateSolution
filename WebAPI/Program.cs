@@ -1,14 +1,14 @@
 using System;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Infrastructure.Persistance;
+using Infrastructure.Persistance.Seed;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Persistance;
-using Persistance.Seed;
 using Serilog;
 
 namespace WebApplicationTemplate
@@ -34,8 +34,8 @@ namespace WebApplicationTemplate
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occurred while migrating or seeding the database.");
             }
-            Console.WriteLine($"Opening APP....");
-            await host.RunAsync();
+            Console.WriteLine("Opening APP....");
+            await host.RunAsync(); 
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -56,7 +56,7 @@ namespace WebApplicationTemplate
 -----*******************************************---
 ---------------------------------------------------"
             );
-            Console.WriteLine($"Welcome To {nameof(WebApplicationTemplate)}");
+            Console.WriteLine($"Welcome To {nameof(WebApplicationTemplate)}, have fun :)");
         }       
 
     }

@@ -1,9 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using MediatR;
-using Persistance;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,9 +9,9 @@ namespace Application.Values.Commands.CreateValue
 {
     public class CreateValueCommandHandler : IRequestHandler<CreateValueCommand, int>
     {
-        private readonly TemplateDbContext _context;
+        private readonly ITemplateDbContext _context;
 
-        public CreateValueCommandHandler(TemplateDbContext context)
+        public CreateValueCommandHandler(ITemplateDbContext context)
         {
             _context = context;
         }

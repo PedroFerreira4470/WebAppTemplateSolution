@@ -1,4 +1,4 @@
-﻿using Application._CustomExceptions;
+﻿using Application.Common.CustomExceptions;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 using System;
