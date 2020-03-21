@@ -22,6 +22,7 @@ namespace Infrastructure.Persistance.EFFilterExtensions
                         entry.Entity.CreatedBy = currentUserService.GetCurrentEmail();
                         entry.Entity.Created = DateTime.UtcNow;
                         entry.Entity.LastModified = DateTime.UtcNow;
+                        entry.Entity.LastModifiedBy = currentUserService.GetCurrentEmail();
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModifiedBy = currentUserService.GetCurrentEmail(); 

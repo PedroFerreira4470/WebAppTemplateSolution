@@ -35,7 +35,7 @@ namespace Infrastructure.Persistance.Configurations
             builder.Property(e => e.CreatedBy)
                .IsRequired()
                .HasColumnType("nvarchar(50)");
-            builder.Property(e => e.CreatedBy)
+            builder.Property(e => e.LastModifiedBy)
                 .IsRequired()
                 .HasColumnType("nvarchar(50)");
 

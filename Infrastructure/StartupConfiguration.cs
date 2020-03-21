@@ -20,15 +20,17 @@ namespace Infrastructure
         {
             services.AddScoped<IJwtGenerator, JwsGenerator>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddDbContextPool<TemplateDbContext>(options =>
+            services.AddDbContext<TemplateDbContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")
                     , b => b.MigrationsAssembly(typeof(TemplateDbContext).Assembly.FullName))
                 );
             services.AddScoped<ITemplateDbContext>(provider => provider.GetService<TemplateDbContext>());
+
             var builder = services.AddIdentityCore<User>();
             var identitybuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identitybuilder.AddEntityFrameworkStores<TemplateDbContext>();
             identitybuilder.AddSignInManager<SignInManager<User>>();
+
             //Give token key to the Authentication
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"] /*try to use user secrets*/));
 

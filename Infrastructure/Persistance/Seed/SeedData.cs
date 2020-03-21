@@ -62,9 +62,9 @@ namespace Infrastructure.Persistance.Seed
         {
             var values = new List<Value>
             {
-                new Value { ValueNumber = 1 },
-                new Value { ValueNumber = 2 },
-                new Value { ValueNumber = 3 },
+                new Value { ValueNumber = 1,Created=DateTime.Now },
+                new Value { ValueNumber = 2,Created=DateTime.Now},
+                new Value { ValueNumber = 3,Created=DateTime.Now },
             };
 
             await context.Values.AddRangeAsync(values);

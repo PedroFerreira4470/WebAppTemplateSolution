@@ -1,20 +1,24 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Persistance.EFFilterExtensions;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using IdentityServer4.EntityFramework.Options;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 
 namespace Infrastructure.Persistance
 {
-    public class TemplateDbContext : IdentityDbContext<User>, ITemplateDbContext
+    public class TemplateDbContext : ApiAuthorizationDbContext<User>, ITemplateDbContext
     {
         private readonly ICurrentUserService _currentUserService;
 
-        public TemplateDbContext(DbContextOptions options, ICurrentUserService currentUserService)
-            : base(options)
+        public TemplateDbContext(DbContextOptions options,
+            IOptions<OperationalStoreOptions> operationalStoreOptions,
+            ICurrentUserService currentUserService)
+            : base(options, operationalStoreOptions)
         {
             this.ChangeTracker.LazyLoadingEnabled = false;
             _currentUserService = currentUserService;
