@@ -1,5 +1,4 @@
-﻿using System;
-using Domain.Enums;
+﻿using Domain.Enums;
 using Domain.Extensions;
 
 namespace Domain.Entities

@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Common.CustomExceptions;
+﻿using Application.Common.CustomExceptions;
 using Application.Common.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Values.Queries.GetValuesList
 {
@@ -26,7 +27,7 @@ namespace Application.Values.Queries.GetValuesList
         public async Task<List<ValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
         {
 
-            var result = await _context.Values
+            var result = await _context.Values.Where(p => p.ValueNumber < 10)
                 .ProjectTo<ValuesListDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

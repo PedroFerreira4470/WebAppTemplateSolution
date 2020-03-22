@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Application.Users
+﻿namespace Application.Users
 {
     //Register,Login
     public class UserDto

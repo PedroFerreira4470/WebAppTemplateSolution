@@ -1,11 +1,8 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Users.Commands.Register
 {
-   public class RegisterRequestValidator : AbstractValidator<RegisterCommand>
+    public class RegisterRequestValidator : AbstractValidator<RegisterCommand>
     {
         public RegisterRequestValidator()
         {
@@ -15,11 +12,11 @@ namespace Application.Users.Commands.Register
             RuleFor(x => x.Password).PasswordValidator();
         }
 
-      }
+    }
 
-     public static class PasswordValidatorExtension
+    public static class PasswordValidatorExtension
     {
-        public static IRuleBuilder<T,string> PasswordValidator<T>(this IRuleBuilder<T, string> ruleBuilder)
+        public static IRuleBuilder<T, string> PasswordValidator<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
 
             var options = ruleBuilder.NotEmpty().MinimumLength(6).WithMessage("Password must be at least 6 characters")

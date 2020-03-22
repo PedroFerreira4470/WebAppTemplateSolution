@@ -9,7 +9,8 @@ namespace Infrastructure.Persistance.EFFilterExtensions
 {
     public static class ActiveQueryFilter
     {
-        public static void ApplyConfigurationsActiveQueryFilter(this ModelBuilder modelBuilder) {
+        public static void ApplyConfigurationsActiveQueryFilter(this ModelBuilder modelBuilder)
+        {
 
             foreach (var type in modelBuilder.Model.GetEntityTypes())
             {
@@ -31,7 +32,7 @@ namespace Infrastructure.Persistance.EFFilterExtensions
         public static void SetSoftDeleteFilter<TEntity>(this ModelBuilder modelBuilder)
             where TEntity : class, IActive
         {
-            modelBuilder.Entity<TEntity>().HasQueryFilter(x => x.IsActive);
+            modelBuilder.Entity<TEntity>().HasQueryFilter(x => x.IsActive == true);
         }
 
     }

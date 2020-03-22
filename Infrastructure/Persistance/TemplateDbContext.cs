@@ -1,14 +1,14 @@
-﻿using Domain.Entities;
+﻿using Application.Common.Interfaces;
+using Domain.Entities;
+using IdentityServer4.EntityFramework.Options;
+using Infrastructure.Persistance.EFFilterExtensions;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Persistance.EFFilterExtensions;
+using Microsoft.Extensions.Options;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces;
-using IdentityServer4.EntityFramework.Options;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using System.Data;
 
 namespace Infrastructure.Persistance
 {
@@ -53,7 +53,7 @@ namespace Infrastructure.Persistance
             //This was made for simplicity, the "correct" way is creating for each Identity"_" class a Configuration class,
             //in the folder EntitiesConfigurations
             IdentityConfigurations(modelBuilder);
-           
+
 
         }
 

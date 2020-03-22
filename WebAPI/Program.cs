@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Domain.Entities;
 using Infrastructure.Persistance;
 using Infrastructure.Persistance.Seed;
@@ -10,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using System;
+using System.Threading.Tasks;
 
 namespace WebApplicationTemplate
 {
@@ -27,7 +27,7 @@ namespace WebApplicationTemplate
                 var context = services.GetRequiredService<TemplateDbContext>();
                 var userManager = services.GetRequiredService<UserManager<User>>();
                 await context.Database.MigrateAsync();
-                await SeedData.SeedDataAsync(context,userManager);
+                await SeedData.SeedDataAsync(context, userManager);
             }
             catch (Exception ex)
             {
@@ -35,7 +35,7 @@ namespace WebApplicationTemplate
                 logger.LogError(ex, "An error occurred while migrating or seeding the database.");
             }
             Console.WriteLine("Opening APP....");
-            await host.RunAsync(); 
+            await host.RunAsync();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -57,7 +57,7 @@ namespace WebApplicationTemplate
 ---------------------------------------------------"
             );
             Console.WriteLine($"Welcome To {nameof(WebApplicationTemplate)}, have fun :)");
-        }       
+        }
 
     }
 }

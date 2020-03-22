@@ -1,5 +1,4 @@
-1. EVENTS (Notification)
-2. SignalR
+1. EVENTS (Notification, and maybe use signalR aswell) 
 3. Dapper goes to Infrastructure, instead of Application
 4. SaveChanges Types<>
 

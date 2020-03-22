@@ -1,21 +1,20 @@
 using Application;
+using Application.Common.Interfaces;
+using FluentValidation.AspNetCore;
+using Infrastructure;
+using Infrastructure.Persistance;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebAPI.Middleware;
-using FluentValidation.AspNetCore;
-using Infrastructure;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using System.Linq;
-using NSwag.Generation.Processors.Security;
 using NSwag;
+using NSwag.Generation.Processors.Security;
 using Serilog;
-using Infrastructure.Persistance;
-using Application.Common.Interfaces;
-using NJsonSchema;
+using System.Linq;
+using WebAPI.Middleware;
 using WebAPI.SignalR;
 
 namespace WebApplicationTemplate
@@ -41,8 +40,10 @@ namespace WebApplicationTemplate
                 .ReadFrom.Configuration(conf)
                 .CreateLogger();
 
-            services.AddCors(opt => {
-                opt.AddPolicy("CorsPolicy", policy => {
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
                     policy.AllowAnyHeader()
                           .AllowAnyMethod()
                           .WithExposedHeaders("WWW-Authenticate")
@@ -68,13 +69,13 @@ namespace WebApplicationTemplate
                         Name = "Authorization",
                         In = OpenApiSecurityApiKeyLocation.Header,
                         Description = "Copy this into the value field: Bearer {token}",
-                        
+
                     }
                 );
-            
+
                 // Post process the generated document
-                config.PostProcess = d => 
-                { 
+                config.PostProcess = d =>
+                {
                     d.Info.Title = "TemplateProjet";
                     d.Info.Description = "Description goes here";
                     d.Info.License = new OpenApiLicense();
@@ -87,7 +88,8 @@ namespace WebApplicationTemplate
 
 
 
-            services.AddControllers(opt => {
+            services.AddControllers(opt =>
+            {
                 //This will give authorization to every api including the login
                 //you have access to controller without authentication you need to use D.A [AllowAnonymous]
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
@@ -103,15 +105,16 @@ namespace WebApplicationTemplate
             if (env.IsDevelopment())
             {
                 //app.UseDeveloperExceptionPage();
-            
-                app.UseOpenApi() ;
-                app.UseSwaggerUi3(settings =>{
+
+                app.UseOpenApi();
+                app.UseSwaggerUi3(settings =>
+                {
                     settings.Path = "/api";
                     settings.DocExpansion = "Full";
                     settings.DocumentTitle = "TemplateProjet";
                     settings.EnableTryItOut = true;
                 });
-                
+
             }
 
 
@@ -127,10 +130,10 @@ namespace WebApplicationTemplate
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<CommentHub>("/commentHub");
-                /*more hub goes here*/
+                endpoints.MapHub<NotificationHub>("/notificationHub");
                 /*fallback goes here*/
             });
-            
+
         }
     }
 }

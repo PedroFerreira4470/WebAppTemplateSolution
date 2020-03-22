@@ -36,12 +36,12 @@ namespace WebAPI.Middleware
             switch (ex)
             {
                 case RestException re:
-                    Log.Error($"REST ERROR: { (int)re.Code } {re.Errors}",re);
+                    Log.Error($"REST ERROR: { (int)re.Code } {re.Errors}", re);
                     errors = re.Errors;
                     context.Response.StatusCode = (int)re.Code;
                     break;
                 case Exception e:
-                    Log.Error($"SERVER ERROR: { (int)HttpStatusCode.InternalServerError } {e.Message}",e);
+                    Log.Error($"SERVER ERROR: { (int)HttpStatusCode.InternalServerError } {e.Message}", e);
                     errors = String.IsNullOrWhiteSpace(e.Message) ? "Something went wrong" : e.Message;
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
@@ -56,6 +56,6 @@ namespace WebAPI.Middleware
                 await context.Response.WriteAsync(result);
             }
         }
-    
+
     }
 }

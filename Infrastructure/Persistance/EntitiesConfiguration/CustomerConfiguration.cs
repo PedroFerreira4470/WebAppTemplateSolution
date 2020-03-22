@@ -6,7 +6,7 @@ namespace Infrastructure.Persistance.Configurations
 {
     internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     {
-        public void Configure(EntityTypeBuilder<Customer> builder) 
+        public void Configure(EntityTypeBuilder<Customer> builder)
         {
             builder.Property(e => e.CustomerId).ValueGeneratedOnAdd();
 

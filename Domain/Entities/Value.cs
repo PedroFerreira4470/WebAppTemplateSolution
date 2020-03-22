@@ -1,14 +1,11 @@
 ﻿using Domain.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Entities
 {
-    public class Value : Auditable
+    public class Value : Auditable, IActive
     {
         public int ValueId { get; private set; }
         public int ValueNumber { get; set; }
-
+        public bool IsActive { get; set; }
     }
 }

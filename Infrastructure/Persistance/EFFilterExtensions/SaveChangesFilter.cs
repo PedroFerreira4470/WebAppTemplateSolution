@@ -7,10 +7,11 @@ using System;
 
 namespace Infrastructure.Persistance.EFFilterExtensions
 {
-   public static class SaveChangesFilter
+    public static class SaveChangesFilter
     {
 
-        public static void SaveChangesQueryFilters(ChangeTracker ChangeTracker, ICurrentUserService currentUserService) {
+        public static void SaveChangesQueryFilters(ChangeTracker ChangeTracker, ICurrentUserService currentUserService)
+        {
 
             //TODO Put in one foreach instead of two
             foreach (var entry in ChangeTracker.Entries<Auditable>())
@@ -25,7 +26,7 @@ namespace Infrastructure.Persistance.EFFilterExtensions
                         entry.Entity.LastModifiedBy = currentEmail;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = currentEmail; 
+                        entry.Entity.LastModifiedBy = currentEmail;
                         entry.Entity.LastModified = DateTime.UtcNow;
                         break;
                     case EntityState.Deleted:
