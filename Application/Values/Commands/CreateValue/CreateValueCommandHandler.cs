@@ -18,10 +18,9 @@ namespace Application.Values.Commands.CreateValue
 
         public async Task<int> Handle(CreateValueCommand request, CancellationToken cancellationToken)
         {
-            var entity = new Value
-            {
-                ValueNumber = request.ValueNumber
-            };
+            var entity = new Value { ValueNumber = request.ValueNumber };
+
+            entity.HandleBLL(example: "teste"); //Business Logic Layer
 
             _context.Values.Add(entity);
 

@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Linq;
 using System.Security.Claims;
 
@@ -13,15 +12,23 @@ namespace Infrastructure.Security
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public string GetCurrentUserName()
+        public string GetUsername()
         {
-            var userName = _httpContextAccessor.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userName = _httpContextAccessor
+                .HttpContext
+                .User?
+                .FindFirstValue(ClaimTypes.NameIdentifier);
             return userName;
         }
 
-        public string GetCurrentEmail()
+        public string GetEmail()
         {
-            var email = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            var email = _httpContextAccessor
+                .HttpContext
+                .User?
+                .Claims?
+                .FirstOrDefault(x => x.Type == ClaimTypes.Email)?
+                .Value;
             return email;
         }
     }

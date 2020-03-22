@@ -20,10 +20,13 @@ namespace Infrastructure
         {
             services.AddScoped<IJwtGenerator, JwsGenerator>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddDbContext<TemplateDbContext>(options =>
+
+            //TODO Change AddDbContext into AddDbContextPool (Problem: constructor schema)
+            services.AddDbContext<TemplateDbContext>((options) => { 
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")
-                    , b => b.MigrationsAssembly(typeof(TemplateDbContext).Assembly.FullName))
-                );
+                    , b => b.MigrationsAssembly(typeof(TemplateDbContext).Assembly.FullName));  
+            });
+
             services.AddScoped<ITemplateDbContext>(provider => provider.GetService<TemplateDbContext>());
 
             var builder = services.AddIdentityCore<User>();
@@ -31,8 +34,7 @@ namespace Infrastructure
             identitybuilder.AddEntityFrameworkStores<TemplateDbContext>();
             identitybuilder.AddSignInManager<SignInManager<User>>();
 
-            //Give token key to the Authentication
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"] /*try to use user secrets*/));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"] /*TODO use user secrets*/));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt => {
@@ -52,8 +54,7 @@ namespace Infrastructure
                         OnMessageReceived = context => {
                             var acessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(acessToken) &&
-                                (path.StartsWithSegments("/chat")))
+                            if (!string.IsNullOrEmpty(acessToken) && path.StartsWithSegments("/commentHub"))
                             {
                                 context.Token = acessToken;
                             }

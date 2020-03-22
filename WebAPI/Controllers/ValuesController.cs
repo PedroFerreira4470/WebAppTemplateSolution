@@ -1,5 +1,6 @@
 ﻿using Application.Values.Commands.CreateValue;
 using Application.Values.Queries.GetValuesList;
+using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

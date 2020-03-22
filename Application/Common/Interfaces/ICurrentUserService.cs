@@ -2,7 +2,7 @@
 {
     public interface ICurrentUserService
     {
-        string GetCurrentEmail();
-        string GetCurrentUserName();
+        string GetEmail();
+        string GetUsername();
     }
 }

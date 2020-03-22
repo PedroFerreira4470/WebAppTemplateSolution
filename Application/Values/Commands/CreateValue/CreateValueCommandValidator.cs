@@ -7,8 +7,7 @@ namespace Application.Values.Commands.CreateValue
         public CreateValueCommandValidator()
         {
             RuleFor(v => v.ValueNumber)
-                .NotEmpty().WithMessage("Value Number can't be empty!")
-                .LessThanOrEqualTo(int.MaxValue).WithMessage("This value is not supported!");
+                .NotNull().WithMessage("Value Number can't be empty!");
         }
     }
 }

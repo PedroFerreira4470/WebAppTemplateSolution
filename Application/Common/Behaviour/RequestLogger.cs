@@ -22,7 +22,7 @@ namespace Application.Common.Behaviour
             var name = typeof(TRequest).Name;
 
             _logger.LogInformation("Request:{@Name}, By: {@Email}",
-                name, _currentUserService.GetCurrentEmail() ?? "Unknown");
+                name, _currentUserService.GetEmail() ?? "Unknown");
 
             return Task.CompletedTask;
         }

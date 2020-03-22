@@ -9,5 +9,6 @@ namespace Domain.Entities
     {
         public int ValueId { get; private set; }
         public int ValueNumber { get; set; }
+
     }
 }

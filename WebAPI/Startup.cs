@@ -15,6 +15,8 @@ using NSwag;
 using Serilog;
 using Infrastructure.Persistance;
 using Application.Common.Interfaces;
+using NJsonSchema;
+using WebAPI.SignalR;
 
 namespace WebApplicationTemplate
 {
@@ -51,9 +53,7 @@ namespace WebApplicationTemplate
 
             services.AddInfrastructure(Configuration);
             services.AddApplication();
-
-            //services.AddLogging();
-         
+            services.AddSignalR();
             services.AddHealthChecks()
                .AddDbContextCheck<TemplateDbContext>();
 
@@ -67,12 +67,29 @@ namespace WebApplicationTemplate
                         Type = OpenApiSecuritySchemeType.ApiKey,
                         Name = "Authorization",
                         In = OpenApiSecurityApiKeyLocation.Header,
-                        Description = "Copy this into the value field: Bearer {token}"
+                        Description = "Copy this into the value field: Bearer {token}",
+                        
                     }
                 );
+            
+                // Post process the generated document
+                config.PostProcess = d => 
+                { 
+                    d.Info.Title = "TemplateProjet";
+                    d.Info.Description = "Description goes here";
+                    d.Info.License = new OpenApiLicense();
+                    d.Info.Version = "V1";
+                };
+
+                config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
             });
+
+
+
+
             services.AddControllers(opt => {
-                //This will give authorization to every api including the login, you have to use allowanonymous///
+                //This will give authorization to every api including the login
+                //you have access to controller without authentication you need to use D.A [AllowAnonymous]
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
             })
@@ -86,13 +103,18 @@ namespace WebApplicationTemplate
             if (env.IsDevelopment())
             {
                 //app.UseDeveloperExceptionPage();
-                app.UseOpenApi();
+            
+                app.UseOpenApi() ;
                 app.UseSwaggerUi3(settings =>{
+                    settings.Path = "/api";
                     settings.DocExpansion = "Full";
                     settings.DocumentTitle = "TemplateProjet";
                     settings.EnableTryItOut = true;
                 });
+                
             }
+
+
             app.UseHealthChecks("/health");
             //app.UseHttpsRedirection();
             //app.UseSerilogRequestLogging();
@@ -104,6 +126,9 @@ namespace WebApplicationTemplate
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<CommentHub>("/commentHub");
+                /*more hub goes here*/
+                /*fallback goes here*/
             });
             
         }

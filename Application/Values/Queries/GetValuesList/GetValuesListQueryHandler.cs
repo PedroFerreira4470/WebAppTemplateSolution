@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,9 +25,15 @@ namespace Application.Values.Queries.GetValuesList
 
         public async Task<List<ValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
         {
+
             var result = await _context.Values
                 .ProjectTo<ValuesListDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
+
+            //Using Dapper(other ORM, instead of EF to get Data from DB)
+            //Note: Dapper is faster compared to EF for small-medium queries
+            //var result1 = await _context.DbConnection
+            //.QueryAsync<Value,Dto,return>("SELECT  * FROM [dbo].[Values]");
 
             if (result is null)
                 throw new RestException(HttpStatusCode.NotFound, new { Value = $"{nameof(Value)} not found" });

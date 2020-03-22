@@ -15,17 +15,21 @@ namespace Infrastructure.Persistance.EFFilterExtensions
             //TODO Put in one foreach instead of two
             foreach (var entry in ChangeTracker.Entries<Auditable>())
             {
-               
+                var currentEmail = currentUserService.GetEmail();
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = currentUserService.GetCurrentEmail();
+                        entry.Entity.CreatedBy = currentEmail;
                         entry.Entity.Created = DateTime.UtcNow;
                         entry.Entity.LastModified = DateTime.UtcNow;
-                        entry.Entity.LastModifiedBy = currentUserService.GetCurrentEmail();
+                        entry.Entity.LastModifiedBy = currentEmail;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = currentUserService.GetCurrentEmail(); 
+                        entry.Entity.LastModifiedBy = currentEmail; 
+                        entry.Entity.LastModified = DateTime.UtcNow;
+                        break;
+                    case EntityState.Deleted:
+                        entry.Entity.LastModifiedBy = currentEmail;
                         entry.Entity.LastModified = DateTime.UtcNow;
                         break;
                 };

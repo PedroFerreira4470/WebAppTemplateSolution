@@ -8,6 +8,7 @@ using Application.Common.Interfaces;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using System.Data;
 
 namespace Infrastructure.Persistance
 {
@@ -22,12 +23,14 @@ namespace Infrastructure.Persistance
         {
             this.ChangeTracker.LazyLoadingEnabled = false;
             _currentUserService = currentUserService;
+            DbConnection = this.Database.GetDbConnection();
         }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Value> Values { get; set; }
 
+        public IDbConnection DbConnection { get; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
