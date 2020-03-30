@@ -12,54 +12,60 @@ namespace Infrastructure.Persistance.EFFilterExtensions
 
         public static void SaveChangesQueryFilters(ChangeTracker ChangeTracker, ICurrentUserService currentUserService)
         {
-
-            //TODO Put in one foreach instead of two
-            foreach (var entry in ChangeTracker.Entries<Auditable>())
+            foreach (var entry in ChangeTracker.Entries())
             {
-                var currentEmail = currentUserService.GetEmail();
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedBy = currentEmail;
-                        entry.Entity.Created = DateTime.UtcNow;
-                        entry.Entity.LastModified = DateTime.UtcNow;
-                        entry.Entity.LastModifiedBy = currentEmail;
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = currentEmail;
-                        entry.Entity.LastModified = DateTime.UtcNow;
-                        break;
-                    case EntityState.Deleted:
-                        entry.Entity.LastModifiedBy = currentEmail;
-                        entry.Entity.LastModified = DateTime.UtcNow;
-                        break;
-                };
+                if (entry.Entity is Auditable auditableEntity)
+                    ConfigureAuditableEntity(entry, auditableEntity, currentUserService);
+
+                if (entry.Entity is IActive activeEntity)
+                    ConfigureActiveEntity(entry, activeEntity); 
             }
+        }
 
-
-            foreach (var entry in ChangeTracker.Entries<IActive>())
+        private static void ConfigureActiveEntity(EntityEntry entry, IActive activeEntity)
+        {
+            switch (entry.State)
             {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.IsActive = true;
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.IsActive = true;
-                        break;
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.Entity.IsActive = false;
-                        //HandleRelationalEntities(entry, db);
-                        break;
-                }
+                case EntityState.Added:
+                    activeEntity.IsActive = true;
+                    break;
+                case EntityState.Modified:
+                    activeEntity.IsActive = true;
+                    break;
+                case EntityState.Deleted:
+                    entry.State = EntityState.Modified;
+                    activeEntity.IsActive = false;
+                    //HandleRelationalEntities(entry, db);
+                    break;
             }
+        }
 
-
-
+        private static void ConfigureAuditableEntity(EntityEntry entry, Auditable auditableEntity, ICurrentUserService currentUserService)
+        {
+            var currentEmail = currentUserService.GetEmail();
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    auditableEntity.CreatedBy = currentEmail;
+                    auditableEntity.Created = DateTime.UtcNow;
+                    auditableEntity.LastModified = null;
+                    auditableEntity.LastModifiedBy = currentEmail;
+                    break;
+                case EntityState.Modified:
+                    auditableEntity.LastModifiedBy = currentEmail;
+                    auditableEntity.LastModified = DateTime.UtcNow;
+                    break;
+                case EntityState.Deleted:
+                    auditableEntity.LastModifiedBy = currentEmail;
+                    auditableEntity.LastModified = DateTime.UtcNow;
+                    break;
+            };
         }
 
 
+
+
+        //Active is active = false for the relational entities
         //private static void HandleRelationalEntities(EntityEntry entry, TemplateDbContext db) {
 
         //    foreach (var navigationEntry in entry.Navigations.Where(n => !n.Metadata.IsDependentToPrincipal()))

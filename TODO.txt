@@ -1,4 +1,38 @@
-1. EVENTS (Notification, and maybe use signalR aswell) 
-3. Dapper goes to Infrastructure, instead of Application
-4. SaveChanges Types<>
+1. Dapper goes to Infrastructure, instead of Application
+
+
+
+MEDIATR and notification 
+https://medium.com/@arleypadua/commands-domain-events-real-time-notification-hands-on-6694d9868056
+
+CI/CD with AzureDevops
+https://www.youtube.com/watch?v=m-ju4JDz4uI
+https://www.youtube.com/watch?v=5qx12m89KCo
+
+Globalizatio nand language
+https://dotnetcoretutorials.com/2017/06/22/request-culture-asp-net-core/
+
+
+#Nullable references
+https://stackoverflow.com/questions/55492214/the-annotation-for-nullable-reference-types-should-only-be-used-in-code-within-a
+https://stackoverflow.com/questions/59424673/best-practice-for-using-nullable-reference-types-for-dtos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

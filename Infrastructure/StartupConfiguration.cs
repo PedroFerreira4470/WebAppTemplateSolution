@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Persistance;
 using Infrastructure.Security;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +21,9 @@ namespace Infrastructure
         {
             services.AddScoped<IJwtGenerator, JwsGenerator>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<IEmailNotificationMessage, EmailService>();
+            services.AddTransient<ISmsNotificationMessage, SmsService>();
 
-            //TODO Change AddDbContext into AddDbContextPool (Problem: constructor schema)
             services.AddDbContext<TemplateDbContext>((options) =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")
@@ -30,7 +32,13 @@ namespace Infrastructure
 
             services.AddScoped<ITemplateDbContext>(provider => provider.GetService<TemplateDbContext>());
 
-            var builder = services.AddIdentityCore<User>();
+            var builder = services.AddIdentityCore<User>(options => {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 1;
+            });
             var identitybuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identitybuilder.AddEntityFrameworkStores<TemplateDbContext>();
             identitybuilder.AddSignInManager<SignInManager<User>>();

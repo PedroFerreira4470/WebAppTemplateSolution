@@ -4,5 +4,6 @@
     {
         string GetEmail();
         string GetUsername();
+        string GetUserGlobalization();
     }
 }

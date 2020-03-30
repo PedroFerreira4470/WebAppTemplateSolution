@@ -24,7 +24,7 @@ namespace WebAPI.SignalR
 
             //var comment = await mediator.Send(command);
 
-            await Clients.All.SendAsync("ReceiveNotification",/*command eg(notificationDTO)*/"", cancellationToken);
+            await Clients.All.SendAsync("ReceiveNotification",new {/*command eg(notificationDTO)*/example="" }, cancellationToken);
         }
     }
 }

@@ -31,5 +31,16 @@ namespace Infrastructure.Security
                 .Value;
             return email;
         }
+
+        public string GetUserGlobalization() {
+            //TODO (should return globalization (e.g {pt-PT}) from header)
+            //https://dotnetcoretutorials.com/2017/06/22/request-culture-asp-net-core/
+            return _httpContextAccessor
+                .HttpContext
+                .Request
+                .GetTypedHeaders()
+                .AcceptLanguage
+                .ToString();
+        }
     }
 }

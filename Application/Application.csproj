@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <InvariantGlobalization>true</InvariantGlobalization>
     <!--<Nullable>enable</Nullable> ENABLE LATER TODO-->
   </PropertyGroup>
   

@@ -1,4 +1,5 @@
 ﻿using Domain.Extensions;
+using System;
 
 namespace Domain.Entities
 {
@@ -7,5 +8,9 @@ namespace Domain.Entities
         public int ValueId { get; private set; }
         public int ValueNumber { get; set; }
         public bool IsActive { get; set; }
+
+        private Value() { }
+        public Value(int number) => ValueNumber = number;
+
     }
 }

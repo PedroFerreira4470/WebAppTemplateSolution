@@ -1,5 +1,6 @@
 ﻿using Application.Common.CustomExceptions;
 using Application.Common.Interfaces;
+using Application.Common.NotificationServices;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
@@ -17,11 +18,15 @@ namespace Application.Values.Queries.GetValuesList
     {
         private readonly ITemplateDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _c;
+        private readonly IMediator _mediator;
 
-        public GetValuesListQueryHandler(ITemplateDbContext context, IMapper mapper)
+        public GetValuesListQueryHandler(ITemplateDbContext context, IMapper mapper, ICurrentUserService c, IMediator mediator)
         {
             _context = context;
             _mapper = mapper;
+            _c = c;
+            _mediator = mediator;
         }
 
         public async Task<List<ValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
@@ -38,6 +43,7 @@ namespace Application.Values.Queries.GetValuesList
 
             if (result is null)
                 throw new RestException(HttpStatusCode.NotFound, new { Value = $"{nameof(Value)} not found" });
+
 
             return result;
         }
