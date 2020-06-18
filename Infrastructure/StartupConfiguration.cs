@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using Infrastructure.Identity;
 using Infrastructure.Persistance;
 using Infrastructure.Security;
 using Infrastructure.Services;
@@ -23,6 +24,7 @@ namespace Infrastructure
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddTransient<IEmailNotificationMessage, EmailService>();
             services.AddTransient<ISmsNotificationMessage, SmsService>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddDbContext<TemplateDbContext>((options) =>
             {

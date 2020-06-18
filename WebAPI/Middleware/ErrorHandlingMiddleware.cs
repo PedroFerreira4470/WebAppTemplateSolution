@@ -1,5 +1,6 @@
 ﻿using Application.Common.CustomExceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 using System.Net;
@@ -11,10 +12,12 @@ namespace WebAPI.Middleware
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
-        public ErrorHandlingMiddleware(RequestDelegate next)
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -25,23 +28,23 @@ namespace WebAPI.Middleware
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
+                await HandleExceptionAsync(context, ex, _logger);
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private async Task HandleExceptionAsync(HttpContext context, Exception ex, ILogger<ErrorHandlingMiddleware> logger)
         {
             object errors = null;
 
             switch (ex)
             {
                 case RestException re:
-                    Log.Error($"REST ERROR: { (int)re.Code } {re.Errors}", re);
+                    logger.LogError(re, $"REST ERROR: {re.Errors}");
                     errors = re.Errors;
                     context.Response.StatusCode = (int)re.Code;
                     break;
                 case Exception e:
-                    Log.Error($"SERVER ERROR: { (int)HttpStatusCode.InternalServerError } {e.Message}", e);
+                    logger.LogError(e, $"SERVER ERROR");
                     errors = String.IsNullOrWhiteSpace(e.Message) ? "Something went wrong" : e.Message;
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;

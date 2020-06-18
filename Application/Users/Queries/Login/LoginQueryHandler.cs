@@ -11,26 +11,17 @@ namespace Application.Users.Queries.Login
 {
     public class LoginQueryHandler : IRequestHandler<LoginQuery, UserDto>
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         private readonly IJwtGenerator _jwtGenerator;
+        private readonly IIdentityService _identityService;
 
-        public LoginQueryHandler(UserManager<User> userManager, SignInManager<User> signInManager, IJwtGenerator jwtGenerator)
+        public LoginQueryHandler(IIdentityService identityService, IJwtGenerator jwtGenerator)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
             _jwtGenerator = jwtGenerator;
+            _identityService = identityService;
         }
         public async Task<UserDto> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByEmailAsync(request.Email);
-
-            if (user is null)
-            {
-                throw new RestException(HttpStatusCode.Unauthorized);
-            }
-
-            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            var (user,result) = await _identityService.SignInAsync(request.Email, request.Password);
 
             if (result.Succeeded)
             {

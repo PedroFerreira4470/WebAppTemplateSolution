@@ -28,6 +28,8 @@ namespace WebApplicationTemplate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplication();
+            services.AddInfrastructure(Configuration);
 
             var conf = new ConfigurationBuilder()
                .AddJsonFile("appsettings.json")
@@ -49,8 +51,7 @@ namespace WebApplicationTemplate
                 });
             });
 
-            services.AddInfrastructure(Configuration);
-            services.AddApplication();
+
             services.AddSignalR();
             services.AddHealthChecks()
                .AddDbContextCheck<TemplateDbContext>();

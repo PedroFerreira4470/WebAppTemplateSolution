@@ -1,8 +1,11 @@
-﻿using Application.Common.Interfaces;
-using Application.Values._ValueBLL;
+﻿using Application.Common.CustomExceptions;
+using Application.Common.HelperExtensions.Number;
+using Application.Common.Interfaces;
+using Application.Values.BusinessLogic;
 using Domain.Entities;
 using MediatR;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +15,7 @@ namespace Application.Values.Commands.CreateValue
     public class CreateValueCommandHandler : IRequestHandler<CreateValueCommand, int>
     {
         private readonly ITemplateDbContext _context;
+        private readonly int MAX_VALUE = 10_000;
 
         public CreateValueCommandHandler(ITemplateDbContext context)
         {
@@ -22,13 +26,14 @@ namespace Application.Values.Commands.CreateValue
         {
             var entity = new Value(request.ValueNumber);
 
-            entity.ChangeValueIfBiggerThan(10);//Business Logic 
+            entity.IncrementByOneIfBiggerThan(MAX_VALUE);
 
             _context.Values.Add(entity);
      
             var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            if (!success) throw new Exception("Problem saving changes");
+            if (!success) 
+                throw new Exception("Problem saving changes");
 
             //Publish
             //wait for all to finish
@@ -38,8 +43,6 @@ namespace Application.Values.Commands.CreateValue
             //var _ = Task.Run(() => _mediator.Publish(new NotificationMessage("teste@teste.com", "teste1@teste.com", "Body here", "Subject")));
             
             return entity.ValueId;
-            
-
         }
     }
 }

@@ -43,6 +43,7 @@ namespace Infrastructure.Persistance.EFFilterExtensions
         private static void ConfigureAuditableEntity(EntityEntry entry, Auditable auditableEntity, ICurrentUserService currentUserService)
         {
             var currentEmail = currentUserService.GetEmail();
+
             switch (entry.State)
             {
                 case EntityState.Added:

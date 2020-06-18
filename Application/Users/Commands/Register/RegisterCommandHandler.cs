@@ -14,22 +14,16 @@ namespace Application.Users.Commands.Register
 {
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, UserDto>
     {
-        private readonly ITemplateDbContext _context;
-        private readonly UserManager<User> _userManager;
+        private readonly IIdentityService _identityService;
         private readonly IJwtGenerator _jwt;
 
-        public RegisterCommandHandler(ITemplateDbContext context, UserManager<User> userManager, IJwtGenerator jwt)
+        public RegisterCommandHandler(IIdentityService identityService, IJwtGenerator jwt)
         {
-            _context = context;
-            _userManager = userManager;
+            _identityService = identityService;
             _jwt = jwt;
         }
         public async Task<UserDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            if (_context.Users.Where(p => p.Email == request.Email).Any())
-                throw new RestException(HttpStatusCode.BadRequest, "Email Already Exist");
-            if (_context.Users.Where(p => p.UserName == request.UserName).Any())
-                throw new RestException(HttpStatusCode.BadRequest, "Username Already Exist");
 
             var user = new User
             {
@@ -38,7 +32,8 @@ namespace Application.Users.Commands.Register
                 Email = request.Email,
             };
 
-            var result = await _userManager.CreateAsync(user, request.Password);
+            var (result,_) = await _identityService.CreateUserAsync(user, request.Password);
+
             if (result.Succeeded)
             {
                 return new UserDto
@@ -48,7 +43,11 @@ namespace Application.Users.Commands.Register
                     Token = _jwt.CreateToken(user)
                 };
             }
-            throw new Exception("Problem creating user");
+            else
+            {
+                throw new RestException(HttpStatusCode.BadRequest, new { RegisterErrors = result.Errors});
+                //throw new Exception("Problem creating user");
+            }
         }
     }
 }

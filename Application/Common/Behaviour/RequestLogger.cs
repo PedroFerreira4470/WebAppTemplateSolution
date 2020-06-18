@@ -1,4 +1,6 @@
 ﻿using Application.Common.Interfaces;
+using Application.Users.Commands.Register;
+using Application.Users.Queries.Login;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 using System.Threading;
@@ -19,10 +21,22 @@ namespace Application.Common.Behaviour
 
         public Task Process(TRequest request, CancellationToken cancellationToken)
         {
-            var name = typeof(TRequest).Name;
+            var requestName = typeof(TRequest).Name;
+            var userId = _currentUserService.GetUserId() ?? string.Empty;
+            string userName = _currentUserService.GetUsername() ?? string.Empty;
+            var twq = _currentUserService.GetUserGlobalization();
 
-            _logger.LogInformation("Request:{@Name}, By: {@Email}",
-                name, _currentUserService.GetEmail() ?? "Unknown");
+            if (requestName == nameof(LoginQuery) || requestName == nameof(RegisterCommand))
+            {
+                _logger.LogInformation("Request: {Name} {@UserId} {@UserName}",
+                        requestName, userId, userName);
+            }
+            else
+            {
+                _logger.LogInformation("Request: {Name} {@UserId} {@UserName} {@Request}",
+                        requestName, userId, userName, request);
+            }
+
 
             return Task.CompletedTask;
         }

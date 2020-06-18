@@ -1,6 +1,5 @@
 ﻿using Application.Common.CustomExceptions;
 using Application.Common.Interfaces;
-using Application.Common.NotificationServices;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
@@ -18,15 +17,11 @@ namespace Application.Values.Queries.GetValuesList
     {
         private readonly ITemplateDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ICurrentUserService _c;
-        private readonly IMediator _mediator;
 
-        public GetValuesListQueryHandler(ITemplateDbContext context, IMapper mapper, ICurrentUserService c, IMediator mediator)
+        public GetValuesListQueryHandler(ITemplateDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _c = c;
-            _mediator = mediator;
         }
 
         public async Task<List<ValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
@@ -38,7 +33,7 @@ namespace Application.Values.Queries.GetValuesList
 
             //Using Dapper(other ORM, instead of EF to get Data from DB)
             //Note: Dapper is faster compared to EF for small-medium queries
-            //var result1 = await _context.DbConnection
+            //var result1 = await _context.DbConnection.QueryAsync<Value>("select * from Values");
             //.QueryAsync<Value,Dto,return>("SELECT  * FROM [dbo].[Values]");
 
             if (result is null)

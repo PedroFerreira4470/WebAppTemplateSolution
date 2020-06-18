@@ -12,12 +12,21 @@ namespace Infrastructure.Security
         {
             _httpContextAccessor = httpContextAccessor;
         }
+
+        public string GetUserId()
+        {
+            var userId = _httpContextAccessor
+                .HttpContext
+                .User?
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+            return userId;
+        }
         public string GetUsername()
         {
             var userName = _httpContextAccessor
                 .HttpContext
                 .User?
-                .FindFirstValue(ClaimTypes.NameIdentifier);
+                .FindFirstValue(ClaimTypes.Name);
             return userName;
         }
 
