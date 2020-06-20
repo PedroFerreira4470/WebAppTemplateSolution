@@ -26,8 +26,6 @@ namespace Application.Values.Commands.CreateValue
         {
             var entity = new Value(request.ValueNumber);
 
-            entity.IncrementByOneIfBiggerThan(MAX_VALUE);
-
             _context.Values.Add(entity);
      
             var success = await _context.SaveChangesAsync(cancellationToken) > 0;
