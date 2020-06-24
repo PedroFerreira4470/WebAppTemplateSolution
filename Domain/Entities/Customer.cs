@@ -5,11 +5,6 @@ namespace Domain.Entities
 {
     public class Customer : Auditable, IActive
     {
-        public Customer()
-        {
-            Orders = new HashSet<Order>();
-        }
-
         public int CustomerId { get; private set; }
         public string CompanyName { get; set; }
         public string ContactName { get; set; }
@@ -18,6 +13,10 @@ namespace Domain.Entities
         public string Country { get; set; }
         public bool IsActive { get; set; }
 
+        public Customer()
+        {
+            Orders = new HashSet<Order>();
+        }
         public ICollection<Order> Orders { get; }
     }
 }

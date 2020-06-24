@@ -34,7 +34,8 @@ namespace Infrastructure
 
             services.AddScoped<ITemplateDbContext>(provider => provider.GetService<TemplateDbContext>());
 
-            var builder = services.AddIdentityCore<User>(options => {
+            var builder = services.AddIdentityCore<User>(options =>
+            {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;

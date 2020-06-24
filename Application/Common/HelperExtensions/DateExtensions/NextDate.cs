@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Common.HelperExtensions.DatesExtensions
 {
@@ -9,12 +7,12 @@ namespace Application.Common.HelperExtensions.DatesExtensions
     {
         public static DateTime Next(this DateTime current, DayOfWeek dayOfWeek)
         {
-            int offsetDays = dayOfWeek - current.DayOfWeek;
+            var offsetDays = dayOfWeek - current.DayOfWeek;
             if (offsetDays <= 0)
             {
                 offsetDays += 7;
             }
-            DateTime result = current.AddDays(offsetDays);
+            var result = current.AddDays(offsetDays);
             return result;
         }
     }

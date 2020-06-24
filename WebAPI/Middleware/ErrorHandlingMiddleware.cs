@@ -1,7 +1,6 @@
 ﻿using Application.Common.CustomExceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using System;
 using System.Net;
 using System.Text.Json;

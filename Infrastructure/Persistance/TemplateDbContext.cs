@@ -32,7 +32,7 @@ namespace Infrastructure.Persistance
         public DbSet<Order> Orders { get; set; }
         public DbSet<Value> Values { get; set; }
 
-        public async Task<IEnumerable<T>> LoadData<T, U>(string storedProcedure, U parameters) 
+        public async Task<IEnumerable<T>> LoadData<T, U>(string storedProcedure, U parameters)
         {
             using IDbConnection dbConnection = this.Database.GetDbConnection();
             return await dbConnection

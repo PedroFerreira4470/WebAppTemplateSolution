@@ -1,5 +1,4 @@
-﻿using Application.Common.Behaviour;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

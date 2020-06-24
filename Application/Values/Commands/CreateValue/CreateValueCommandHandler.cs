@@ -1,6 +1,4 @@
-﻿using Application.Common.CustomExceptions;
-using Application.Common.HelperExtensions.Number;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -24,11 +22,13 @@ namespace Application.Values.Commands.CreateValue
             var entity = new Value(request.ValueNumber);
 
             _context.Values.Add(entity);
-     
+
             var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            if (!success) 
+            if (!success)
+            {
                 throw new Exception("Problem saving changes");
+            }
 
             //Publish
             //wait for all to finish
@@ -36,7 +36,7 @@ namespace Application.Values.Commands.CreateValue
 
             //Fire and forget (Only use it if you 101% you sure i what you want)
             //var _ = Task.Run(() => _mediator.Publish(new NotificationMessage("teste@teste.com", "teste1@teste.com", "Body here", "Subject")));
-            
+
             return entity.ValueId;
         }
     }

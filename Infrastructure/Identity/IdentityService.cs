@@ -4,11 +4,8 @@ using Application.Common.Models;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
@@ -31,9 +28,14 @@ namespace Infrastructure.Identity
         public async Task<(Result Result, string UserId)> CreateUserAsync(User user, string password)
         {
             if (_userManager.Users.Where(p => p.Email == user.Email).Any())
+            {
                 throw new RestException(HttpStatusCode.BadRequest, "Email Already Exist");
+            }
+
             if (_userManager.Users.Where(p => p.UserName == user.UserName).Any())
+            {
                 throw new RestException(HttpStatusCode.BadRequest, "Username Already Exist");
+            }
 
             var result = await _userManager.CreateAsync(user, password);
 
@@ -59,12 +61,14 @@ namespace Infrastructure.Identity
             return result.ToApplicationResult();
         }
 
-        public async Task<(User,SignInResult)> SignInAsync(string email, string password)
+        public async Task<(User, SignInResult)> SignInAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user is null)
+            {
                 throw new RestException(HttpStatusCode.Unauthorized);
+            }
 
             var signInResult = await _signInManager.CheckPasswordSignInAsync(user, password, false);
             return (user, signInResult);

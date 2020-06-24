@@ -1,7 +1,6 @@
 ﻿using Application.Values.Commands.CreateValue;
 using Application.Values.Queries.GetValuesList;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;

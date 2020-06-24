@@ -1,8 +1,6 @@
 ﻿using Application.Common.CustomExceptions;
 using Application.Common.Interfaces;
-using Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +19,7 @@ namespace Application.Users.Queries.Login
         }
         public async Task<UserDto> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var (user,result) = await _identityService.SignInAsync(request.Email, request.Password);
+            var (user, result) = await _identityService.SignInAsync(request.Email, request.Password);
 
             if (result.Succeeded)
             {

@@ -37,8 +37,9 @@ namespace Application.Values.Queries.GetValuesList
             //.QueryAsync<Value,Dto,return>("SELECT  * FROM [dbo].[Values]");
 
             if (result is null)
+            {
                 throw new RestException(HttpStatusCode.NotFound, new { Value = $"{nameof(Value)} not found" });
-
+            }
 
             return result;
         }

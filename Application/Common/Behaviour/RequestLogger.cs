@@ -23,7 +23,7 @@ namespace Application.Common.Behaviour
         {
             var requestName = typeof(TRequest).Name;
             var userId = _currentUserService.GetUserId() ?? string.Empty;
-            string userName = _currentUserService.GetUsername() ?? string.Empty;
+            var userName = _currentUserService.GetUsername() ?? string.Empty;
             var twq = _currentUserService.GetUserGlobalization();
 
             if (requestName == nameof(LoginQuery) || requestName == nameof(RegisterCommand))

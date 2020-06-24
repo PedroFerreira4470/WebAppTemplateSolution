@@ -3,9 +3,6 @@ using Application.Common.CustomExceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +29,7 @@ namespace Application.Users.Commands.Register
                 Email = request.Email,
             };
 
-            var (result,_) = await _identityService.CreateUserAsync(user, request.Password);
+            var (result, _) = await _identityService.CreateUserAsync(user, request.Password);
 
             if (result.Succeeded)
             {
@@ -45,7 +42,7 @@ namespace Application.Users.Commands.Register
             }
             else
             {
-                throw new RestException(HttpStatusCode.BadRequest, new { RegisterErrors = result.Errors});
+                throw new RestException(HttpStatusCode.BadRequest, new { RegisterErrors = result.Errors });
                 //throw new Exception("Problem creating user");
             }
         }

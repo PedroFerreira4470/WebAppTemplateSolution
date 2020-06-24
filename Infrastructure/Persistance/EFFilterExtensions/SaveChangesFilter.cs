@@ -15,10 +15,14 @@ namespace Infrastructure.Persistance.EFFilterExtensions
             foreach (var entry in ChangeTracker.Entries())
             {
                 if (entry.Entity is Auditable auditableEntity)
+                {
                     ConfigureAuditableEntity(entry, auditableEntity, currentUserService);
+                }
 
                 if (entry.Entity is IActive activeEntity)
-                    ConfigureActiveEntity(entry, activeEntity); 
+                {
+                    ConfigureActiveEntity(entry, activeEntity);
+                }
             }
         }
 

@@ -15,7 +15,9 @@ namespace Infrastructure.Persistance.EFFilterExtensions
             foreach (var type in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(IActive).IsAssignableFrom(type.ClrType))
+                {
                     modelBuilder.SetSoftDeleteFilter(type.ClrType);
+                }
             }
         }
 
@@ -25,7 +27,7 @@ namespace Infrastructure.Persistance.EFFilterExtensions
                 .Invoke(null, new object[] { modelBuilder });
         }
 
-        static readonly MethodInfo SetSoftDeleteFilterMethod = typeof(ActiveQueryFilter)
+        private static readonly MethodInfo SetSoftDeleteFilterMethod = typeof(ActiveQueryFilter)
                    .GetMethods(BindingFlags.Public | BindingFlags.Static)
                    .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteFilter");
 

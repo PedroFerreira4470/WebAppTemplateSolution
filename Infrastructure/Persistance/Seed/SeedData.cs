@@ -15,7 +15,10 @@ namespace Infrastructure.Persistance.Seed
         private static readonly Dictionary<int, Customer> customers = new Dictionary<int, Customer>();
         public static async Task SeedDataAsync(TemplateDbContext context, UserManager<User> userManager)
         {
-            if (context.Customers.Any()) return;
+            if (context.Customers.Any())
+            {
+                return;
+            }
 
             await SeedUsersAsync(userManager);
             await SeedValuesAsync(context);
