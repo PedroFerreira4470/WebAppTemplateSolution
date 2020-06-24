@@ -1,11 +1,9 @@
 ﻿using Application.Common.CustomExceptions;
 using Application.Common.HelperExtensions.Number;
 using Application.Common.Interfaces;
-using Application.Values.BusinessLogic;
 using Domain.Entities;
 using MediatR;
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +13,6 @@ namespace Application.Values.Commands.CreateValue
     public class CreateValueCommandHandler : IRequestHandler<CreateValueCommand, int>
     {
         private readonly ITemplateDbContext _context;
-        private readonly int MAX_VALUE = 10_000;
 
         public CreateValueCommandHandler(ITemplateDbContext context)
         {

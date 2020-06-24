@@ -1,5 +1,3 @@
-1. Dapper goes to Infrastructure, instead of Application
-
 
 MEDIATR and notification 
 https://medium.com/@arleypadua/commands-domain-events-real-time-notification-hands-on-6694d9868056

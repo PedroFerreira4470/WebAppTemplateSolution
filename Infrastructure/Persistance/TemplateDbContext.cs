@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Dapper;
 using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Infrastructure.Persistance.EFFilterExtensions;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,14 +25,19 @@ namespace Infrastructure.Persistance
         {
             this.ChangeTracker.LazyLoadingEnabled = false;
             _currentUserService = currentUserService;
-            DbConnection = this.Database.GetDbConnection();
+            //DbConnection = this.Database.GetDbConnection();
         }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Value> Values { get; set; }
 
-        public IDbConnection DbConnection { get; }
+        public async Task<IEnumerable<T>> LoadData<T, U>(string storedProcedure, U parameters) 
+        {
+            using IDbConnection dbConnection = this.Database.GetDbConnection();
+            return await dbConnection
+                .QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
