@@ -4,7 +4,7 @@ namespace Infrastructure.Persistance.Seed
 {
     internal static class SeedExtensions
     {
-        public static Customer AddOrders(this Customer customer, params Order[] orders)
+        internal static Customer AddOrders(this Customer customer, params Order[] orders)
         {
             foreach (var order in orders)
             {

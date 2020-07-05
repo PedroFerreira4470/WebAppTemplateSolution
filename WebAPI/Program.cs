@@ -15,7 +15,9 @@ namespace WebApplicationTemplate
 {
     public class Program
     {
+#pragma warning disable IDE1006 // Naming Styles
         public static async Task Main(string[] args)
+#pragma warning restore IDE1006 // Naming Styles
         {
             var host = CreateHostBuilder(args)
                 .Build();
@@ -34,17 +36,19 @@ namespace WebApplicationTemplate
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occurred while migrating or seeding the database.");
             }
-            Console.WriteLine("Opening APP....");
+            Console.WriteLine("Starting API....");
             await host.RunAsync();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                        .UseSerilog()
+                        .ConfigureWebHostDefaults(webBuilder =>
+                        {
+                            webBuilder.UseStartup<Startup>();
+                        });
+        }
 
         private static void ConsoleLogInformation()
         {
@@ -56,6 +60,7 @@ namespace WebApplicationTemplate
 -----*******************************************---
 ---------------------------------------------------"
             );
+
             Console.WriteLine($"Welcome To {nameof(WebApplicationTemplate)}, have fun :)");
         }
 

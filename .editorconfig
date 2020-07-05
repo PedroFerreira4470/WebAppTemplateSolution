@@ -178,6 +178,10 @@ dotnet_naming_rule.private_or_internal_field_should_be__namefield.severity = sug
 dotnet_naming_rule.private_or_internal_field_should_be__namefield.symbols = private_or_internal_field
 dotnet_naming_rule.private_or_internal_field_should_be__namefield.style = _namefield
 
+dotnet_naming_rule.asyncmethod_should_be_namefieldasync.severity = error
+dotnet_naming_rule.asyncmethod_should_be_namefieldasync.symbols = asyncmethod
+dotnet_naming_rule.asyncmethod_should_be_namefieldasync.style = namefieldasync
+
 # Symbol specifications
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
@@ -196,6 +200,10 @@ dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, meth
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers = 
 
+dotnet_naming_symbols.asyncmethod.applicable_kinds = method
+dotnet_naming_symbols.asyncmethod.applicable_accessibilities = *
+dotnet_naming_symbols.asyncmethod.required_modifiers = async
+
 # Naming styles
 
 dotnet_naming_style.pascal_case.required_prefix = 
@@ -212,3 +220,8 @@ dotnet_naming_style._namefield.required_prefix = _
 dotnet_naming_style._namefield.required_suffix = 
 dotnet_naming_style._namefield.word_separator = 
 dotnet_naming_style._namefield.capitalization = camel_case
+
+dotnet_naming_style.namefieldasync.required_prefix = 
+dotnet_naming_style.namefieldasync.required_suffix = Async
+dotnet_naming_style.namefieldasync.word_separator = 
+dotnet_naming_style.namefieldasync.capitalization = pascal_case

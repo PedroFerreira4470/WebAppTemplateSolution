@@ -22,8 +22,7 @@ namespace Infrastructure
         {
             services.AddScoped<IJwtGenerator, JwsGenerator>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddTransient<IEmailNotificationMessage, EmailService>();
-            services.AddTransient<ISmsNotificationMessage, SmsService>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddDbContext<TemplateDbContext>((options) =>

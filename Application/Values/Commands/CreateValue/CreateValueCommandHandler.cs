@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.NotificationServices;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -11,10 +12,11 @@ namespace Application.Values.Commands.CreateValue
     public class CreateValueCommandHandler : IRequestHandler<CreateValueCommand, int>
     {
         private readonly ITemplateDbContext _context;
-
-        public CreateValueCommandHandler(ITemplateDbContext context)
+        private readonly IMediator _mediator;
+        public CreateValueCommandHandler(ITemplateDbContext context, IMediator mediator)
         {
             _context = context;
+            _mediator = mediator;
         }
 
         public async Task<int> Handle(CreateValueCommand request, CancellationToken cancellationToken)
@@ -34,8 +36,8 @@ namespace Application.Values.Commands.CreateValue
             //wait for all to finish
             //await _mediator.Publish(new NotificationMessage("teste@teste.com", "teste1@teste.com", "Body here","Subject"));
 
-            //Fire and forget (Only use it if you 101% you sure i what you want)
-            //var _ = Task.Run(() => _mediator.Publish(new NotificationMessage("teste@teste.com", "teste1@teste.com", "Body here", "Subject")));
+            //Fire and forget (Only use it if you 101% you sure is what you want)
+            _ = Task.Run(() => _mediator.Publish(new NotificationMessage("pedrodiogo4470@gmail.com", "pedrodiogo4470@gmail.com", "Body here", "Subject")));
 
             return entity.ValueId;
         }

@@ -7,15 +7,15 @@ namespace Application.Common.NotificationServices
 {
     public class EmailNotificationHandler : INotificationHandler<NotificationMessage>
     {
-        private readonly IEmailNotificationMessage _notificationMessage;
+        private readonly IEmailSender _emailSender;
 
-        public EmailNotificationHandler(IEmailNotificationMessage notificationMessage)
+        public EmailNotificationHandler(IEmailSender emailSender)
         {
-            _notificationMessage = notificationMessage;
+            _emailSender = emailSender;
         }
-        public Task Handle(NotificationMessage notification, CancellationToken cancellationToken)
+        public Task Handle(NotificationMessage message, CancellationToken cancellationToken)
         {
-            return _notificationMessage.SendAsync(notification);
+            return _emailSender.SendAsync(message);
         }
     }
 }

@@ -11,13 +11,13 @@ namespace Application.Common.Models
             Errors = errors.ToArray();
         }
 
-        public bool Succeeded { get; set; }
+        public bool Succeeded { get; private set; }
 
-        public string[] Errors { get; set; }
+        public string[] Errors { get; private set; }
 
         public static Result Success()
         {
-            return new Result(true, new string[] { });
+            return new Result(true, default);
         }
 
         public static Result Failure(IEnumerable<string> errors)

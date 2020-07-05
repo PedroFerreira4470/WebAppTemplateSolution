@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Common.HelperExtensions;
+using Domain.Entities;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -10,9 +11,9 @@ namespace Infrastructure.Persistance.Seed
 {
     public static class SeedData
     {
-        private static readonly Dictionary<int, User> users = new Dictionary<int, User>();
-        private static readonly Dictionary<int, Order> orders = new Dictionary<int, Order>();
-        private static readonly Dictionary<int, Customer> customers = new Dictionary<int, Customer>();
+        private static readonly Dictionary<int, User> _users = new Dictionary<int, User>();
+        private static readonly Dictionary<int, Order> _orders = new Dictionary<int, Order>();
+        private static readonly Dictionary<int, Customer> _customers = new Dictionary<int, Customer>();
         public static async Task SeedDataAsync(TemplateDbContext context, UserManager<User> userManager)
         {
             if (context.Customers.Any())
@@ -30,7 +31,7 @@ namespace Infrastructure.Persistance.Seed
 
         private static async Task SeedUsersAsync(UserManager<User> userManager)
         {
-            users.Add(1, new User
+            _users.Add(1, new User
             {
                 Id = "a",
                 DisplayName = "Bob",
@@ -38,7 +39,7 @@ namespace Infrastructure.Persistance.Seed
                 Email = "bob@test.com"
             }
             );
-            users.Add(2, new User
+            _users.Add(2, new User
             {
                 Id = "b",
                 DisplayName = "Jane",
@@ -46,7 +47,7 @@ namespace Infrastructure.Persistance.Seed
                 Email = "jane@test.com"
             }
             );
-            users.Add(3, new User
+            _users.Add(3, new User
             {
                 Id = "c",
                 DisplayName = "Pedro Ferreira",
@@ -55,7 +56,7 @@ namespace Infrastructure.Persistance.Seed
             }
             );
 
-            foreach (var user in users)
+            foreach (var user in _users)
             {
                 await userManager.CreateAsync(user.Value, "Passw0rd!");
             }
@@ -74,7 +75,7 @@ namespace Infrastructure.Persistance.Seed
         }
         private static async Task SeedOrdersAsync(TemplateDbContext context)
         {
-            orders.Add(1, new Order
+            _orders.Add(1, new Order
             {
                 OrderName = "Order1",
                 Priority = PriorityLevel.Low,
@@ -85,7 +86,7 @@ namespace Infrastructure.Persistance.Seed
                 LastModifiedBy = "pedrodiogo4470@hotmail.com"
             }
             );
-            orders.Add(2, new Order
+            _orders.Add(2, new Order
             {
                 OrderName = "Order2",
                 Priority = PriorityLevel.Medium,
@@ -96,7 +97,7 @@ namespace Infrastructure.Persistance.Seed
                 LastModifiedBy = "pedrodiogo4470@hotmail.com"
             }
             );
-            orders.Add(3, new Order
+            _orders.Add(3, new Order
             {
                 OrderName = "Order3",
                 Priority = PriorityLevel.High,
@@ -108,11 +109,11 @@ namespace Infrastructure.Persistance.Seed
             }
             );
 
-            await context.Orders.AddRangeAsync(orders.Values.AsEnumerable());
+            await context.Orders.AddRangeAsync(_orders.Values.AsEnumerable());
         }
         private static async Task SeedCustomersAsync(TemplateDbContext context)
         {
-            customers.Add(1, new Customer
+            _customers.Add(1, new Customer
             {
                 Address = "Avda. de la Constitución 2222",
                 CompanyName = "Ana Trujillo Emparedados y helados",
@@ -124,12 +125,10 @@ namespace Infrastructure.Persistance.Seed
                 CreatedBy = "pedrodiogo4470@hotmail.com",
                 LastModified = null,
                 LastModifiedBy = "pedrodiogo4470@hotmail.com"
-            }.AddOrders(
-                    orders[1]
-                )
+            }.AddOrders(_orders[1])
             );
 
-            customers.Add(2, new Customer
+            _customers.Add(2, new Customer
             {
                 Address = "Obere Str. 57",
                 CompanyName = "Alfreds Futterkiste",
@@ -141,12 +140,9 @@ namespace Infrastructure.Persistance.Seed
                 CreatedBy = "pedrodiogo4470@hotmail.com",
                 LastModified = null,
                 LastModifiedBy = "pedrodiogo4470@hotmail.com"
-            }.AddOrders(
-                        orders[2],
-                        orders[3]
-                    )
+            }.AddOrders(_orders[2],_orders[3])
             );
-            customers.Add(3, new Customer
+            _customers.Add(3, new Customer
             {
                 Address = "Mataderos  2312",
                 CompanyName = "Antonio Moreno Taquería",
@@ -162,7 +158,7 @@ namespace Infrastructure.Persistance.Seed
             );
 
 
-            await context.Customers.AddRangeAsync(customers.Values.AsEnumerable());
+            await context.Customers.AddRangeAsync(_customers.Values.AsEnumerable());
         }
     }
 
