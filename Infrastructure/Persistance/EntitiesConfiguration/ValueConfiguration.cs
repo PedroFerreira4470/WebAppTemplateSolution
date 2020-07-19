@@ -8,14 +8,6 @@ namespace Infrastructure.Persistance.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<Value> builder)
         {
-            //pass this two fields from the base entity to a generic confi to remove redundance
-            //https://stackoverflow.com/questions/53275567/how-to-apply-common-configuration-to-all-entities-in-ef-core
-            builder.Property(e => e.CreatedBy)
-               .IsRequired()
-               .HasColumnType("nvarchar(50)");
-            builder.Property(e => e.LastModifiedBy)
-                .IsRequired()
-                .HasColumnType("nvarchar(50)");
         }
     }
 }

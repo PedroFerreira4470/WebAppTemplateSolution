@@ -1,9 +1,12 @@
 ﻿using Domain.Enums;
 using Domain.Extensions;
+using Domain.Extensions.ShadowProperties;
 
 namespace Domain.Entities
 {
-    public class Order : AuditableAndActive
+    [Auditable]
+    [SoftDelete]
+    public class Order //: AuditableAndActive
     {
         public int OrderId { get; private set; }
         public string OrderName { get; set; }

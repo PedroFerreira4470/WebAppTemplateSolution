@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Interfaces;
 
 namespace Infrastructure.Persistance.Seed
 {
@@ -13,7 +15,7 @@ namespace Infrastructure.Persistance.Seed
         private static readonly Dictionary<int, User> _users = new Dictionary<int, User>();
         private static readonly Dictionary<int, Order> _orders = new Dictionary<int, Order>();
         private static readonly Dictionary<int, Customer> _customers = new Dictionary<int, Customer>();
-        public static async Task SeedDataAsync(TemplateDbContext context)
+        public static async Task SeedDataAsync(ITemplateDbContext context)
         {
             if (context.Customers.Any())
             {
@@ -22,7 +24,7 @@ namespace Infrastructure.Persistance.Seed
             await SeedValuesAsync(context);
             await SeedOrdersAsync(context);
             await SeedCustomersAsync(context);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(CancellationToken.None);
         }
 
         public static async Task SeedDefaultUsersAsync(UserManager<User> userManager)
@@ -43,11 +45,7 @@ namespace Infrastructure.Persistance.Seed
 
 
         }
-        private static async Task SeedUsersAsync(UserManager<User> userManager)
-        {
-           
-        }
-        private static async Task SeedValuesAsync(TemplateDbContext context)
+        private static async Task SeedValuesAsync(ITemplateDbContext context)
         {
             var values = new List<Value>
             {
@@ -59,45 +57,46 @@ namespace Infrastructure.Persistance.Seed
             await context.Values.AddRangeAsync(values);
 
         }
-        private static async Task SeedOrdersAsync(TemplateDbContext context)
+        private static async Task SeedOrdersAsync(ITemplateDbContext context)
         {
             _orders.Add(1, new Order
             {
                 OrderName = "Order1",
                 Priority = PriorityLevel.Low,
-                IsActive = true,
-                Created = DateTime.Now,
-                CreatedBy = "pedrodiogo4470@hotmail.com",
-                LastModified = null,
-                LastModifiedBy = "pedrodiogo4470@hotmail.com"
+                //IsActive = true,
+                //Created = DateTime.Now,
+                //CreatedBy = "pedrodiogo4470@hotmail.com",
+                //LastModified = null,
+                //LastModifiedBy = "pedrodiogo4470@hotmail.com"
             }
             );
             _orders.Add(2, new Order
             {
                 OrderName = "Order2",
                 Priority = PriorityLevel.Medium,
-                IsActive = true,
-                Created = DateTime.Now,
-                CreatedBy = "pedrodiogo4470@hotmail.com",
-                LastModified = null,
-                LastModifiedBy = "pedrodiogo4470@hotmail.com"
+                //IsActive = true,
+                //context.Entry(Order).Property("IsActive").CurrentValue = true,
+                //context.Entry(Order).Property("Created").CurrentValue = DateTime.Now,
+                //CreatedBy = "pedrodiogo4470@hotmail.com",
+                //LastModified = null,
+                //LastModifiedBy = "pedrodiogo4470@hotmail.com"
             }
             );
             _orders.Add(3, new Order
             {
                 OrderName = "Order3",
                 Priority = PriorityLevel.High,
-                IsActive = true,
-                Created = DateTime.Now,
-                CreatedBy = "pedrodiogo4470@hotmail.com",
-                LastModified = null,
-                LastModifiedBy = "pedrodiogo4470@hotmail.com"
+                //IsActive = true,
+                //Created = DateTime.Now,
+                //CreatedBy = "pedrodiogo4470@hotmail.com",
+                //LastModified = null,
+                //LastModifiedBy = "pedrodiogo4470@hotmail.com"
             }
             );
 
             await context.Orders.AddRangeAsync(_orders.Values.AsEnumerable());
         }
-        private static async Task SeedCustomersAsync(TemplateDbContext context)
+        private static async Task SeedCustomersAsync(ITemplateDbContext context)
         {
             _customers.Add(1, new Customer
             {
@@ -106,11 +105,11 @@ namespace Infrastructure.Persistance.Seed
                 ContactName = "Ana Trujillo",
                 Country = "Mexico",
                 PostalCode = "05021",
-                IsActive = true,
-                Created = DateTime.Now,
-                CreatedBy = "pedrodiogo4470@hotmail.com",
-                LastModified = null,
-                LastModifiedBy = "pedrodiogo4470@hotmail.com"
+                //IsActive = true,
+                //Created = DateTime.Now,
+                //CreatedBy = "pedrodiogo4470@hotmail.com",
+                //LastModified = null,
+                //LastModifiedBy = "pedrodiogo4470@hotmail.com"
             }.AddOrders(_orders[1])
             );
 
@@ -121,11 +120,11 @@ namespace Infrastructure.Persistance.Seed
                 ContactName = "Maria Anders",
                 Country = "Germany",
                 PostalCode = "12209",
-                IsActive = true,
-                Created = DateTime.Now,
-                CreatedBy = "pedrodiogo4470@hotmail.com",
-                LastModified = null,
-                LastModifiedBy = "pedrodiogo4470@hotmail.com"
+                //IsActive = true,
+                //Created = DateTime.Now,
+                //CreatedBy = "pedrodiogo4470@hotmail.com",
+                //LastModified = null,
+                //LastModifiedBy = "pedrodiogo4470@hotmail.com"
             }.AddOrders(_orders[2], _orders[3])
             );
             _customers.Add(3, new Customer
@@ -135,11 +134,11 @@ namespace Infrastructure.Persistance.Seed
                 ContactName = "Antonio Moreno",
                 Country = "Mexico",
                 PostalCode = "05023",
-                IsActive = true,
-                Created = DateTime.Now,
-                CreatedBy = "pedrodiogo4470@hotmail.com",
-                LastModified = null,
-                LastModifiedBy = "pedrodiogo4470@hotmail.com"
+                //IsActive = true,
+                //Created = DateTime.Now,
+                //CreatedBy = "pedrodiogo4470@hotmail.com",
+                //LastModified = null,
+                //LastModifiedBy = "pedrodiogo4470@hotmail.com"
             }
             );
 

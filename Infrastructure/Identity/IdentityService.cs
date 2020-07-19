@@ -27,12 +27,12 @@ namespace Infrastructure.Identity
         }
         public async Task<(Result Result, string UserId)> CreateUserAsync(User user, string password)
         {
-            if (_userManager.Users.Where(p => p.Email == user.Email).Any())
+            if (_userManager.Users.Any(p => p.Email == user.Email))
             {
                 throw new RestException(HttpStatusCode.BadRequest, "Email Already Exist");
             }
 
-            if (_userManager.Users.Where(p => p.UserName == user.UserName).Any())
+            if (_userManager.Users.Any(p => p.UserName == user.UserName))
             {
                 throw new RestException(HttpStatusCode.BadRequest, "Username Already Exist");
             }

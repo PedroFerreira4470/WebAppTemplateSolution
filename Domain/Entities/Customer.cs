@@ -1,9 +1,12 @@
 ﻿using Domain.Extensions;
 using System.Collections.Generic;
+using Domain.Extensions.ShadowProperties;
 
 namespace Domain.Entities
 {
-    public class Customer : AuditableAndActive
+    [Auditable]
+    [SoftDelete]
+    public class Customer //: AuditableAndActive
     {
         public int CustomerId { get; private set; }
         public string CompanyName { get; set; }

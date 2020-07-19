@@ -111,7 +111,7 @@ namespace Application.IntegrationTests
 
         public static async Task<string> RunAsDefaultUserAsync()
         {
-            return await RunAsUserAsync("test@local", "Passw0rd!");
+            return await RunAsUserAsync("test@local.com", "Passw0rd!");
         }
 
         public static async Task<string> RunAsUserAsync(string userName, string password)

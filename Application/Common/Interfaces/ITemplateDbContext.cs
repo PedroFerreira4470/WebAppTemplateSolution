@@ -18,10 +18,10 @@ namespace Application.Common.Interfaces
         /// Dapper Load Data from Store procedure
         /// </summary>
         /// <typeparam name="T">Object to return</typeparam>
-        /// <typeparam name="U">Parameters of store procedure</typeparam>
+        /// <typeparam name="TU">Parameters of store procedure</typeparam>
         /// <param name="storedProcedure">name of Store Procedure</param>
         /// <param name="parameters">Parameters of Store Procedure</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> LoadData<T, U>(string storedProcedure, U parameters);
+        Task<IEnumerable<T>> LoadData<T, TU>(string storedProcedure, TU parameters);
     }
 }

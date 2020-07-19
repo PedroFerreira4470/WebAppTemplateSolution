@@ -28,7 +28,7 @@ namespace Application.Values.Queries.GetValuesList
         public async Task<List<ValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
         {
 
-            var result = await _context.Values.Where(p => p.ValueNumber < 10)
+            var result = await _context.Values
                 .ProjectTo<ValuesListDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

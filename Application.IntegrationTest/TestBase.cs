@@ -14,11 +14,5 @@ namespace Application.IntegrationTests
         public async Task SetUpAsync() {
             await ResetStateAsync();
         }
-
-        [TearDown]
-        public async Task SetUp1Async()
-        {
-            await ResetStateAsync();
-        }
     }
 }

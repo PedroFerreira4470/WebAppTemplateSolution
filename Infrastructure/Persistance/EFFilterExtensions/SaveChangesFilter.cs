@@ -4,67 +4,89 @@ using Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using Domain.Extensions.Interfaces;
+
+using Domain.Extensions.ShadowProperties;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Infrastructure.Persistance.EFFilterExtensions
 {
     public static class SaveChangesFilter
     {
 
-        public static void SaveChangesQueryFilters(ChangeTracker ChangeTracker, ICurrentUserService currentUserService)
+        public static void SaveChangesQueryFilters(ChangeTracker changeTracker, ICurrentUserService currentUserService)
         {
-            foreach (var entry in ChangeTracker.Entries())
+            if (currentUserService == null)
+                throw new ArgumentNullException(nameof(currentUserService));
+
+            if (changeTracker == null)
+                throw new ArgumentNullException(nameof(changeTracker));
+
+            foreach (var entry in changeTracker.Entries())
             {
-                if (entry.Entity is IAuditable auditableEntity)
+                var entryTypes = entry.Entity.GetType();
+                if (entryTypes.GetCustomAttributes(typeof(AuditableAttribute), true).Any())
                 {
-                    ConfigureAuditableEntity(entry, auditableEntity, currentUserService);
+                    ConfigureAuditableEntity(entry, currentUserService);
                 }
 
-                if (entry.Entity is IActive activeEntity)
+                if (entryTypes.GetCustomAttributes(typeof(SoftDeleteAttribute), true).Any())
                 {
-                    ConfigureActiveEntity(entry, activeEntity);
+                    ConfigureActiveEntity(entry);
                 }
             }
         }
 
-        private static void ConfigureActiveEntity(EntityEntry entry, IActive activeEntity)
+        private static void ConfigureActiveEntity(EntityEntry entry)
         {
             switch (entry.State)
             {
                 case EntityState.Added:
-                    activeEntity.IsActive = true;
+                    entry.Property("IsActive").CurrentValue = true;
                     break;
                 case EntityState.Modified:
-                    activeEntity.IsActive = true;
+                    entry.Property("IsActive").CurrentValue = true;
                     break;
                 case EntityState.Deleted:
                     entry.State = EntityState.Modified;
-                    activeEntity.IsActive = false;
+                    entry.Property("IsActive").CurrentValue = false;
                     //HandleRelationalEntities(entry, db);
                     break;
+                case EntityState.Detached:
+                    break;
+                case EntityState.Unchanged:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        private static void ConfigureAuditableEntity(EntityEntry entry, IAuditable auditableEntity, ICurrentUserService currentUserService)
+        private static void ConfigureAuditableEntity(EntityEntry entry, ICurrentUserService currentUserService)
         {
             var currentEmail = currentUserService.Email;
 
             switch (entry.State)
             {
                 case EntityState.Added:
-                    auditableEntity.CreatedBy = currentEmail;
-                    auditableEntity.Created = DateTime.UtcNow;
-                    auditableEntity.LastModified = null;
-                    auditableEntity.LastModifiedBy = currentEmail;
+                {
+                    entry.Property("CreatedBy").CurrentValue = currentEmail;
+                    entry.Property("Created").CurrentValue = DateTime.UtcNow;
+                    entry.Property("LastModifiedBy").CurrentValue = currentEmail;
+                    entry.Property("LastModified").CurrentValue = null;
                     break;
+                }
                 case EntityState.Modified:
-                    auditableEntity.LastModifiedBy = currentEmail;
-                    auditableEntity.LastModified = DateTime.UtcNow;
-                    break;
                 case EntityState.Deleted:
-                    auditableEntity.LastModifiedBy = currentEmail;
-                    auditableEntity.LastModified = DateTime.UtcNow;
+                {
+                    entry.Property("LastModifiedBy").CurrentValue = currentEmail;
+                    entry.Property("LastModified").CurrentValue = DateTime.UtcNow;
                     break;
+                }
+                case EntityState.Detached:
+                    break;
+                case EntityState.Unchanged:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             };
         }
 

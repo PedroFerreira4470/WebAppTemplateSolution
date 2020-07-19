@@ -3,39 +3,39 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Reflection;
-using Domain.Extensions.Interfaces;
+using Domain.Extensions.ShadowProperties;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 
 namespace Infrastructure.Persistance.EFFilterExtensions
 {
     public static class ActiveQueryFilter
     {
-        public static void ApplyConfigurationsActiveQueryFilter(this ModelBuilder modelBuilder)
-        {
+        private static readonly MethodInfo _setSoftDeleteFilterMethod = 
+            typeof(ActiveQueryFilter)
+            .GetMethods(BindingFlags.Public | BindingFlags.Static)
+            .Single(t => t.IsGenericMethod && t.Name == nameof(SetSoftDeleteFilter));
 
-            foreach (var type in modelBuilder.Model.GetEntityTypes())
+        public static void ApplyConfigurationActiveQueryFilter(this ModelBuilder modelBuilder, ITypeBase entityType)
+        {
+            if (entityType.ClrType.GetCustomAttributes(typeof(SoftDeleteAttribute), true).Any())
             {
-                if (typeof(IActive).IsAssignableFrom(type.ClrType))
-                {
-                    modelBuilder.SetSoftDeleteFilter(type.ClrType);
-                }
+                modelBuilder.SetSoftDeleteFilter(entityType.ClrType);
             }
         }
 
-        public static void SetSoftDeleteFilter(this ModelBuilder modelBuilder, Type entityType)
+        private static void SetSoftDeleteFilter(this ModelBuilder modelBuilder, Type entityType)
         {
-            SetSoftDeleteFilterMethod.MakeGenericMethod(entityType)
+            _setSoftDeleteFilterMethod.MakeGenericMethod(entityType)
                 .Invoke(null, new object[] { modelBuilder });
         }
 
-        private static readonly MethodInfo SetSoftDeleteFilterMethod = typeof(ActiveQueryFilter)
-                   .GetMethods(BindingFlags.Public | BindingFlags.Static)
-                   .Single(t => t.IsGenericMethod && t.Name == "SetSoftDeleteFilter");
-
         public static void SetSoftDeleteFilter<TEntity>(this ModelBuilder modelBuilder)
-            where TEntity : class, IActive
+            where TEntity : class, new()
         {
-            modelBuilder.Entity<TEntity>().HasQueryFilter(x => x.IsActive == true);
+            modelBuilder
+                .Entity<TEntity>()
+                .HasQueryFilter(e => EF.Property<bool>(e, "IsActive"));
         }
 
     }
