@@ -1,17 +1,16 @@
-﻿using Domain.Extensions;
+﻿using Domain.Extensions.ShadowProperties;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Linq;
 using System.Reflection;
-using Domain.Extensions.ShadowProperties;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 
 namespace Infrastructure.Persistance.EFFilterExtensions
 {
     public static class ActiveQueryFilter
     {
-        private static readonly MethodInfo _setSoftDeleteFilterMethod = 
+        private static readonly MethodInfo _setSoftDeleteFilterMethod =
             typeof(ActiveQueryFilter)
             .GetMethods(BindingFlags.Public | BindingFlags.Static)
             .Single(t => t.IsGenericMethod && t.Name == nameof(SetSoftDeleteFilter));

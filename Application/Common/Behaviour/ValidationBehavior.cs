@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidation;
+using MediatR;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
-using MediatR;
 
 namespace Application.Common.Behaviour
 {
@@ -27,7 +27,9 @@ namespace Application.Common.Behaviour
                 var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
                 if (failures.Count != 0)
+                {
                     throw new ValidationException(failures);
+                }
             }
             return await next();
         }

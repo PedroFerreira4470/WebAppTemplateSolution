@@ -17,7 +17,7 @@ namespace Application.Values.Commands.CreateValue
             RuleFor(v => v.ValueNumber)
                 .NotNull().WithMessage("Value can't be empty!")
                 .GreaterThanOrEqualTo(0).WithMessage("Value can't be negative!")
-                .MustAsync(BeUniqueValueAsync).WithMessage("The specified value already exists."); 
+                .MustAsync(BeUniqueValueAsync).WithMessage("The specified value already exists.");
         }
 
         public async Task<bool> BeUniqueValueAsync(int ValueNumber, CancellationToken cancellationToken)

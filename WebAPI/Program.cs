@@ -2,7 +2,6 @@ using Domain.Entities;
 using Infrastructure.Persistance;
 using Infrastructure.Persistance.Seed;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +33,7 @@ namespace WebApplicationTemplate
                     await context.Database.MigrateAsync();
                 }
                 var userManager = services.GetRequiredService<UserManager<User>>();
-                
+
                 await SeedData.SeedDefaultUsersAsync(userManager);
                 await SeedData.SeedDataAsync(context);
             }

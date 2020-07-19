@@ -57,7 +57,7 @@ namespace Application.IntegrationTests
 
             // Register testing version
             services.AddTransient(provider =>
-                Mock.Of<ICurrentUserService>(s=> s.UserId == _currentUserId && s.UserName == _currentUsername && s.Email == _currentUserEmail) );
+                Mock.Of<ICurrentUserService>(s => s.UserId == _currentUserId && s.UserName == _currentUsername && s.Email == _currentUserEmail));
 
             _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();
 

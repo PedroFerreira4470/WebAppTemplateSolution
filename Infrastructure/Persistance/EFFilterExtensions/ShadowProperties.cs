@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Domain.Extensions;
-using Domain.Extensions.ShadowProperties;
+﻿using Domain.Extensions.ShadowProperties;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 
 namespace Infrastructure.Persistance.EFFilterExtensions
 {
@@ -13,7 +10,7 @@ namespace Infrastructure.Persistance.EFFilterExtensions
     {
         public static void ApplyShadowProperties(this ModelBuilder modelBuilder, ITypeBase entityType)
         {
-            modelBuilder.SetAuditableEntities(entityType); 
+            modelBuilder.SetAuditableEntities(entityType);
             modelBuilder.SetSoftDeleteEntities(entityType);
 
         }

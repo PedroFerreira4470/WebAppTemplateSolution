@@ -1,12 +1,11 @@
-﻿using Domain.Entities;
+﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces;
 
 namespace Infrastructure.Persistance.Seed
 {
@@ -33,7 +32,7 @@ namespace Infrastructure.Persistance.Seed
             {
                 return;
             }
-            var defaultUser = new User 
+            var defaultUser = new User
             {
                 Id = "abc",
                 DisplayName = "Administrator",

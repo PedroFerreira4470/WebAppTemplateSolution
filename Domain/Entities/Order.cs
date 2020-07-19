@@ -1,5 +1,4 @@
 ﻿using Domain.Enums;
-using Domain.Extensions;
 using Domain.Extensions.ShadowProperties;
 
 namespace Domain.Entities

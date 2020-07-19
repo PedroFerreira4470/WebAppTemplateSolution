@@ -1,8 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.IntegrationTests
@@ -11,7 +7,8 @@ namespace Application.IntegrationTests
     public class TestBase
     {
         [SetUp]
-        public async Task SetUpAsync() {
+        public async Task SetUpAsync()
+        {
             await ResetStateAsync();
         }
     }

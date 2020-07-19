@@ -1,12 +1,10 @@
 ﻿
 using Application.Common.Interfaces;
-using Domain.Extensions;
+using Domain.Extensions.ShadowProperties;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-
-using Domain.Extensions.ShadowProperties;
 using Microsoft.EntityFrameworkCore.Internal;
+using System;
 
 namespace Infrastructure.Persistance.EFFilterExtensions
 {
@@ -16,10 +14,14 @@ namespace Infrastructure.Persistance.EFFilterExtensions
         public static void SaveChangesQueryFilters(ChangeTracker changeTracker, ICurrentUserService currentUserService)
         {
             if (currentUserService == null)
+            {
                 throw new ArgumentNullException(nameof(currentUserService));
+            }
 
             if (changeTracker == null)
+            {
                 throw new ArgumentNullException(nameof(changeTracker));
+            }
 
             foreach (var entry in changeTracker.Entries())
             {
@@ -67,20 +69,20 @@ namespace Infrastructure.Persistance.EFFilterExtensions
             switch (entry.State)
             {
                 case EntityState.Added:
-                {
-                    entry.Property("CreatedBy").CurrentValue = currentEmail;
-                    entry.Property("Created").CurrentValue = DateTime.UtcNow;
-                    entry.Property("LastModifiedBy").CurrentValue = currentEmail;
-                    entry.Property("LastModified").CurrentValue = null;
-                    break;
-                }
+                    {
+                        entry.Property("CreatedBy").CurrentValue = currentEmail;
+                        entry.Property("Created").CurrentValue = DateTime.UtcNow;
+                        entry.Property("LastModifiedBy").CurrentValue = currentEmail;
+                        entry.Property("LastModified").CurrentValue = null;
+                        break;
+                    }
                 case EntityState.Modified:
                 case EntityState.Deleted:
-                {
-                    entry.Property("LastModifiedBy").CurrentValue = currentEmail;
-                    entry.Property("LastModified").CurrentValue = DateTime.UtcNow;
-                    break;
-                }
+                    {
+                        entry.Property("LastModifiedBy").CurrentValue = currentEmail;
+                        entry.Property("LastModified").CurrentValue = DateTime.UtcNow;
+                        break;
+                    }
                 case EntityState.Detached:
                     break;
                 case EntityState.Unchanged:

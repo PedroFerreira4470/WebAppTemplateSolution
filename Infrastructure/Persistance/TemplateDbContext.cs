@@ -44,7 +44,7 @@ namespace Infrastructure.Persistance
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyCustomConfigurations();
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TemplateDbContext).Assembly);
-            
+
             //This was made for simplicity, the "correct" way is creating for each Identity"_" class a Configuration class,
             //in the folder EntitiesConfigurations
             IdentityConfigurations(modelBuilder);

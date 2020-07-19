@@ -54,7 +54,7 @@ namespace Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task<Result> DeleteUserAsync(User user)
+        private async Task<Result> DeleteUserAsync(User user)
         {
             var result = await _userManager.DeleteAsync(user);
 
