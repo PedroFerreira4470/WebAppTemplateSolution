@@ -2,9 +2,9 @@
 {
     public interface ICurrentUserService
     {
-        string GetUserId();
-        string GetEmail();
-        string GetUsername();
-        string GetUserGlobalization();
+         string UserId { get; }
+         string UserName { get;}
+         string Email { get; }
+         string UserLanguage { get; }
     }
 }

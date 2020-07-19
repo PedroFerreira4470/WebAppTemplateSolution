@@ -11,13 +11,13 @@ namespace WebAPI.Controllers
     {
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<List<ValuesListDto>>> GetAll()
+        public async Task<ActionResult<List<ValuesListDto>>> GetAllAsync()
         {
             return await Mediator.Send(new GetValuesListQuery());
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateValue(CreateValueCommand command)
+        public async Task<ActionResult<int>> CreateValueAsync(CreateValueCommand command)
         {
             return await Mediator.Send(command);
         }

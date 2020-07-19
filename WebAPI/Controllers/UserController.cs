@@ -11,14 +11,14 @@ namespace WebAPI.Controllers
     {
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginQuery query)
+        public async Task<ActionResult<UserDto>> LoginAsync(LoginQuery query)
         {
             return await Mediator.Send(query);
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterCommand command)
+        public async Task<ActionResult<UserDto>> RegisterAsync(RegisterCommand command)
         {
             return await Mediator.Send(command);
 

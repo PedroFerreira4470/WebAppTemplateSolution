@@ -9,7 +9,7 @@ namespace Application.UnitTest.HelperExtensions
     using static ObjectExtensions;
     public class ObjectExtensionsTests
     {
-      
+
         [SetUp]
         public void Setup()
         {
@@ -17,8 +17,8 @@ namespace Application.UnitTest.HelperExtensions
 
         [Test]
         [TestCase(1, new int[] { 1, 2, 3 })]
-        public void IsIn_ShouldGetTrue_WhenIsInsideArray(int element, params int[] array )
-        {  
+        public void IsIn_ShouldGetTrue_WhenIsInsideArray(int element, params int[] array)
+        {
             //act
             var containsElement = element.IsIn(array);
             //Assert
@@ -34,14 +34,14 @@ namespace Application.UnitTest.HelperExtensions
             //Assert
             containsElement.Should().BeFalse();
         }
-        
+
         [Test]
         [TestCase(0)]
         [TestCase(-1)]
         public void IsBetweenInclusive_ShouldGetTrue_WhenNumberIsBetweenTwoNumbersInclusive(int element)
         {
             //act
-            var containsElement = element.IsBetween(-1,10,true);
+            var containsElement = element.IsBetween(-1, 10, true);
             //Assert
             containsElement.Should().BeTrue();
         }

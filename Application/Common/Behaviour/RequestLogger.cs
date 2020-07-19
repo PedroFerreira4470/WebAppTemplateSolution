@@ -22,9 +22,8 @@ namespace Application.Common.Behaviour
         public Task Process(TRequest request, CancellationToken cancellationToken)
         {
             var requestName = typeof(TRequest).Name;
-            var userId = _currentUserService.GetUserId() ?? string.Empty;
-            var userName = _currentUserService.GetUsername() ?? string.Empty;
-            var twq = _currentUserService.GetUserGlobalization();
+            var userId = _currentUserService.UserId ?? string.Empty;
+            var userName = _currentUserService.UserName ?? string.Empty;
 
             if (requestName == nameof(LoginQuery) || requestName == nameof(RegisterCommand))
             {

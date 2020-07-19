@@ -37,7 +37,7 @@ namespace Application.Values.Commands.CreateValue
             //await _mediator.Publish(new NotificationMessage("teste@teste.com", "teste1@teste.com", "Body here","Subject"));
 
             //Fire and forget (Only use it if you 101% you sure is what you want)
-            _ = Task.Run(() => _mediator.Publish(new NotificationMessage("pedrodiogo4470@gmail.com", "pedrodiogo4470@gmail.com", "Body here", "Subject")));
+            //_ = Task.Run(() => _mediator.Publish(new NotificationMessage("pedrodiogo4470@gmail.com", "pedrodiogo4470@gmail.com", "Body here", "Subject")));
 
             return entity.ValueId;
         }

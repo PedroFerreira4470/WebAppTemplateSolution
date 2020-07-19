@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Application.Common.HelperExtensions
 {
@@ -27,7 +24,7 @@ namespace Application.Common.HelperExtensions
         }
 
         //Check to see if a obj is between two dates Inclusive.
-        public static bool IsBetween<T>(this T actual, T lower, T upper,bool inclusive = true) where T : IComparable<T>
+        public static bool IsBetween<T>(this T actual, T lower, T upper, bool inclusive = true) where T : IComparable<T>
         {
             if (inclusive)
             {
@@ -36,6 +33,6 @@ namespace Application.Common.HelperExtensions
             return actual.CompareTo(lower) > 0 && actual.CompareTo(upper) < 0;
         }
 
-        
+
     }
 }

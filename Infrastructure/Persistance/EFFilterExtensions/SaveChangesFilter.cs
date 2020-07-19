@@ -4,6 +4,7 @@ using Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using Domain.Extensions.Interfaces;
 
 namespace Infrastructure.Persistance.EFFilterExtensions
 {
@@ -14,7 +15,7 @@ namespace Infrastructure.Persistance.EFFilterExtensions
         {
             foreach (var entry in ChangeTracker.Entries())
             {
-                if (entry.Entity is Auditable auditableEntity)
+                if (entry.Entity is IAuditable auditableEntity)
                 {
                     ConfigureAuditableEntity(entry, auditableEntity, currentUserService);
                 }
@@ -44,9 +45,9 @@ namespace Infrastructure.Persistance.EFFilterExtensions
             }
         }
 
-        private static void ConfigureAuditableEntity(EntityEntry entry, Auditable auditableEntity, ICurrentUserService currentUserService)
+        private static void ConfigureAuditableEntity(EntityEntry entry, IAuditable auditableEntity, ICurrentUserService currentUserService)
         {
-            var currentEmail = currentUserService.GetEmail();
+            var currentEmail = currentUserService.Email;
 
             switch (entry.State)
             {

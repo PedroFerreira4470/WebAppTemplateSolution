@@ -1,5 +1,4 @@
-﻿using Application.Common.HelperExtensions;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -14,52 +13,39 @@ namespace Infrastructure.Persistance.Seed
         private static readonly Dictionary<int, User> _users = new Dictionary<int, User>();
         private static readonly Dictionary<int, Order> _orders = new Dictionary<int, Order>();
         private static readonly Dictionary<int, Customer> _customers = new Dictionary<int, Customer>();
-        public static async Task SeedDataAsync(TemplateDbContext context, UserManager<User> userManager)
+        public static async Task SeedDataAsync(TemplateDbContext context)
         {
             if (context.Customers.Any())
             {
                 return;
             }
-
-            await SeedUsersAsync(userManager);
             await SeedValuesAsync(context);
             await SeedOrdersAsync(context);
             await SeedCustomersAsync(context);
             await context.SaveChangesAsync();
         }
 
+        public static async Task SeedDefaultUsersAsync(UserManager<User> userManager)
+        {
+            if (userManager.Users.Any())
+            {
+                return;
+            }
+            var defaultUser = new User 
+            {
+                Id = "abc",
+                DisplayName = "Administrator",
+                UserName = "administrator@localhost",
+                Email = "administrator@localhost.com"
+            };
 
+            await userManager.CreateAsync(defaultUser, "Passw0rd!");
+
+
+        }
         private static async Task SeedUsersAsync(UserManager<User> userManager)
         {
-            _users.Add(1, new User
-            {
-                Id = "a",
-                DisplayName = "Bob",
-                UserName = "bob",
-                Email = "bob@test.com"
-            }
-            );
-            _users.Add(2, new User
-            {
-                Id = "b",
-                DisplayName = "Jane",
-                UserName = "jane",
-                Email = "jane@test.com"
-            }
-            );
-            _users.Add(3, new User
-            {
-                Id = "c",
-                DisplayName = "Pedro Ferreira",
-                UserName = "PedroF",
-                Email = "pedrodiogo4470@hotmail.com"
-            }
-            );
-
-            foreach (var user in _users)
-            {
-                await userManager.CreateAsync(user.Value, "Passw0rd!");
-            }
+           
         }
         private static async Task SeedValuesAsync(TemplateDbContext context)
         {
@@ -140,7 +126,7 @@ namespace Infrastructure.Persistance.Seed
                 CreatedBy = "pedrodiogo4470@hotmail.com",
                 LastModified = null,
                 LastModifiedBy = "pedrodiogo4470@hotmail.com"
-            }.AddOrders(_orders[2],_orders[3])
+            }.AddOrders(_orders[2], _orders[3])
             );
             _customers.Add(3, new Customer
             {

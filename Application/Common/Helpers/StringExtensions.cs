@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Application.Common.HelperExtensions
 {
@@ -18,6 +15,6 @@ namespace Application.Common.HelperExtensions
                 return false;
             }
             return Regex.IsMatch(input, _emailPattern, RegexOptions.IgnoreCase);
-        } 
+        }
     }
 }

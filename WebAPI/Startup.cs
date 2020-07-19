@@ -25,6 +25,7 @@ namespace WebApplicationTemplate
 
         public Startup(IConfiguration configuration) => Configuration = configuration;
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -83,9 +84,6 @@ namespace WebApplicationTemplate
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
             });
 
-
-
-
             services.AddControllers(opt =>
             {
                 //This will give authorization to every api including the login
@@ -93,7 +91,7 @@ namespace WebApplicationTemplate
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
             })
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ICurrentUserService>());
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ICurrentUserService>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

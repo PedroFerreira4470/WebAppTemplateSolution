@@ -27,7 +27,7 @@ namespace Infrastructure.Services
             };
 
             mailMessage.To.Add(new MailAddress(notificationMessage.To));
-            
+
             try
             {
                 await smtpClient.SendMailAsync(mailMessage);
@@ -35,7 +35,7 @@ namespace Infrastructure.Services
             }
             catch (Exception e)
             {
-                _logger.LogError(e,$"Error Sending email to {notificationMessage.To} From {notificationMessage.From} with subject {notificationMessage.Subject}");
+                _logger.LogError(e, $"Error Sending email to {notificationMessage.To} From {notificationMessage.From} with subject {notificationMessage.Subject}");
             }
 
         }

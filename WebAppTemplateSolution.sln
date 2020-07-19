@@ -26,9 +26,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTest", "Application.UnitTest\Application.UnitTest.csproj", "{174885B9-29E1-4D21-8DC7-70FEA7E86C31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "Application.UnitTest\Application.UnitTests.csproj", "{174885B9-29E1-4D21-8DC7-70FEA7E86C31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.IntegrationTest", "Application.IntegrationTest\Application.IntegrationTest.csproj", "{FCA280A8-D41B-41C8-A5E4-723125D05E26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.IntegrationTests", "Application.IntegrationTest\Application.IntegrationTests.csproj", "{FCA280A8-D41B-41C8-A5E4-723125D05E26}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0511B1F5-19F1-486F-B3B0-ACC8D24F00EF} = {0511B1F5-19F1-486F-B3B0-ACC8D24F00EF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

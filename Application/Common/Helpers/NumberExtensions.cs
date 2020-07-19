@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Common.HelperExtensions
 {
@@ -10,21 +8,23 @@ namespace Application.Common.HelperExtensions
         public static bool IsBiggerThan<T>(this T number1, T number2) where T : struct, IConvertible
             => ((dynamic)number1 > (dynamic)number2);
 
-        public static bool IsValueEven<T>(this T number) where T : struct, IConvertible {
+        public static bool IsValueEven<T>(this T number) where T : struct, IConvertible
+        {
             if (typeof(T) == typeof(DateTime))
             {
                 throw new ArgumentException("Date Format is not Valid");
             }
 
-            return ((dynamic)number % 2 ) == 0;
+            return ((dynamic)number % 2) == 0;
         }
-        public static bool IsValueOdd<T>(this T number) where T : struct, IConvertible {
+        public static bool IsValueOdd<T>(this T number) where T : struct, IConvertible
+        {
             if (typeof(T) == typeof(DateTime))
             {
                 throw new ArgumentException("Date Format is not Valid");
             }
 
             return ((dynamic)number % 2) != 0;
-        } 
+        }
     }
 }

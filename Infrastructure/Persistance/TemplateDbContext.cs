@@ -23,9 +23,9 @@ namespace Infrastructure.Persistance
             ICurrentUserService currentUserService)
             : base(options, operationalStoreOptions)
         {
-            this.ChangeTracker.LazyLoadingEnabled = false;
+            ChangeTracker.LazyLoadingEnabled = false;
             _currentUserService = currentUserService;
-            //DbConnection = this.Database.GetDbConnection();
+            //DbConnection = Database.GetDbConnection();
         }
 
         public DbSet<Customer> Customers { get; set; }
@@ -34,20 +34,20 @@ namespace Infrastructure.Persistance
 
         public async Task<IEnumerable<T>> LoadData<T, U>(string storedProcedure, U parameters)
         {
-            using IDbConnection dbConnection = this.Database.GetDbConnection();
+            using IDbConnection dbConnection = Database.GetDbConnection();
             return await dbConnection
                 .QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            SaveChangesFilter.SaveChangesQueryFilters(this.ChangeTracker, _currentUserService);
+            SaveChangesFilter.SaveChangesQueryFilters(ChangeTracker, _currentUserService);
             return base.SaveChangesAsync(cancellationToken);
         }
 
         public override int SaveChanges()
         {
-            SaveChangesFilter.SaveChangesQueryFilters(this.ChangeTracker, _currentUserService);
+            SaveChangesFilter.SaveChangesQueryFilters(ChangeTracker, _currentUserService);
             return base.SaveChanges();
         }
 

@@ -2,16 +2,13 @@
 using FluentAssertions;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UnitTest.HelperExtensions
 {
     using static DateExtensions;
     public class DateExtensionsTests
     {
-        
+
         [SetUp]
         public void Setup()
         {
@@ -39,7 +36,7 @@ namespace Application.UnitTest.HelperExtensions
         {
             //Arrange
             var date = DateTime.Now;
-            DateTime anotherDay = date.AddDays(-2);
+            var anotherDay = date.AddDays(-2);
 
             //act
             var arrayOfDates = date.GetDatesUntil(anotherDay);

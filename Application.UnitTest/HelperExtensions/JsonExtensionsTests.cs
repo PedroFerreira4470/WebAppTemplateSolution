@@ -2,12 +2,9 @@
 using FluentAssertions;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.UnitTest.HelperExtensions
 {
-    using static DateExtensions;
     public class JsonExtensionsTests
     {
         internal enum EnumTeste
@@ -32,7 +29,7 @@ namespace Application.UnitTest.HelperExtensions
         public void SerializeToJson_ShouldBeConvertedToJson_WhenCorrectObjectFormat()
         {
             //Arrange
-            var obj = new Result(){ Name = "Teste", Time = DateTime.Now, Enum = EnumTeste.first, NullValue = null };
+            var obj = new Result() { Name = "Teste", Time = DateTime.Now, Enum = EnumTeste.first, NullValue = null };
             //act
             var jsonObj = obj.SerializeToJson();
             //Assert
@@ -49,7 +46,7 @@ namespace Application.UnitTest.HelperExtensions
             var jsonObj = obj.SerializeToJson();
             //Assert
             jsonObj.Should().NotBeNullOrEmpty();
-            string field = "\"nullValue\": null";
+            var field = "\"nullValue\": null";
             jsonObj.Should().Contain(field);
         }
 
@@ -62,8 +59,8 @@ namespace Application.UnitTest.HelperExtensions
             var jsonObj = obj.SerializeToJson();
             //Assert
             jsonObj.Should().NotBeNullOrEmpty();
-            string CamelCaseField = "\"name\": \"Teste\"";
-            string IgnoreCamelCaseField = "\"Name\": \"Teste\"";
+            var CamelCaseField = "\"name\": \"Teste\"";
+            var IgnoreCamelCaseField = "\"Name\": \"Teste\"";
             jsonObj.Should().NotContain(IgnoreCamelCaseField);
             jsonObj.Should().Contain(CamelCaseField);
         }

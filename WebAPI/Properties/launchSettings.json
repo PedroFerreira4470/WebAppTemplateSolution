@@ -20,7 +20,7 @@
     "WebAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "",
+      "launchUrl": "api/index.html#/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

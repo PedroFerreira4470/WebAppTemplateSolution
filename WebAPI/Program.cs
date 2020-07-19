@@ -2,6 +2,7 @@ using Domain.Entities;
 using Infrastructure.Persistance;
 using Infrastructure.Persistance.Seed;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ namespace WebApplicationTemplate
         public static async Task Main(string[] args)
 #pragma warning restore IDE1006 // Naming Styles
         {
+
             var host = CreateHostBuilder(args)
                 .Build();
             using var scope = host.Services.CreateScope();
@@ -27,9 +29,14 @@ namespace WebApplicationTemplate
             try
             {
                 var context = services.GetRequiredService<TemplateDbContext>();
+                if (context.Database.IsSqlServer())
+                {
+                    await context.Database.MigrateAsync();
+                }
                 var userManager = services.GetRequiredService<UserManager<User>>();
-                await context.Database.MigrateAsync();
-                await SeedData.SeedDataAsync(context, userManager);
+                
+                await SeedData.SeedDefaultUsersAsync(userManager);
+                await SeedData.SeedDataAsync(context);
             }
             catch (Exception ex)
             {

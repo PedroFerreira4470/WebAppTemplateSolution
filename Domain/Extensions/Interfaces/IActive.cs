@@ -1,4 +1,4 @@
-﻿namespace Domain.Extensions
+﻿namespace Domain.Extensions.Interfaces
 {
     public interface IActive
     {

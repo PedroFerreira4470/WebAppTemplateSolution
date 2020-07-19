@@ -16,14 +16,14 @@ namespace Application.UnitTest.HelperExtensions
         }
 
         [Test]
-        [TestCase(5,1)]
+        [TestCase(5, 1)]
         [TestCase(0, -1)]
         [TestCase(100, 2)]
         [TestCase(-5, -10)]
         [TestCase(1.2, 1.1)]
         [TestCase(0, -1.2)]
         [TestCase(1.2222, 1.2221)]
-        public void IsBiggerThan_ShouldBeTrue_WhenNumb1IsBiggerThanNumb2<T>(T n1,T n2) 
+        public void IsBiggerThan_ShouldBeTrue_WhenNumb1IsBiggerThanNumb2<T>(T n1, T n2)
             where T : struct, IConvertible
         {
             //act

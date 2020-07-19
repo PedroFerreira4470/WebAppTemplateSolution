@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Reflection;
+using Domain.Extensions.Interfaces;
 
 
 namespace Infrastructure.Persistance.EFFilterExtensions
