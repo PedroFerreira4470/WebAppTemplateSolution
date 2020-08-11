@@ -4,7 +4,7 @@ namespace Domain.Entities
 {
     [Auditable]
     [SoftDelete]
-    public class Value //: AuditableAndActive
+    public class Value
     {
         public int ValueId { get; private set; }
         public int ValueNumber { get; set; }

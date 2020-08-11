@@ -5,7 +5,7 @@ namespace Domain.Entities
 {
     [Auditable]
     [SoftDelete]
-    public class Customer //: AuditableAndActive
+    public class Customer 
     {
         public int CustomerId { get; private set; }
         public string CompanyName { get; set; }

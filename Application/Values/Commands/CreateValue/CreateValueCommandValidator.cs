@@ -20,9 +20,9 @@ namespace Application.Values.Commands.CreateValue
                 .MustAsync(BeUniqueValueAsync).WithMessage("The specified value already exists.");
         }
 
-        public async Task<bool> BeUniqueValueAsync(int ValueNumber, CancellationToken cancellationToken)
+        public async Task<bool> BeUniqueValueAsync(int valueNumber, CancellationToken cancellationToken)
         {
-            return !await _context.Values.AnyAsync(v => v.ValueNumber == ValueNumber);
+            return !await _context.Values.AnyAsync(v => v.ValueNumber == valueNumber, cancellationToken);
         }
     }
 }

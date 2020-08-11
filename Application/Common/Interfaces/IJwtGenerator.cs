@@ -1,9 +1,10 @@
-﻿using Domain.Entities;
+﻿using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Application.Common.Interfaces
 {
     public interface IJwtGenerator
     {
-        string CreateToken(User user);
+        Task<string> CreateTokenAsync(User user);
     }
 }

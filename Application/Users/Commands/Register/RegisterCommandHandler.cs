@@ -37,7 +37,7 @@ namespace Application.Users.Commands.Register
                 {
                     DisplayName = request.DisplayName,
                     UserName = request.UserName,
-                    Token = _jwt.CreateToken(user)
+                    Token = await _jwt.CreateTokenAsync(user)
                 };
             }
             else

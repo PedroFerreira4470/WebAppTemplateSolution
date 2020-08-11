@@ -31,7 +31,7 @@ namespace WebAPI.Middleware
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception ex, ILogger<ErrorHandlingMiddleware> logger)
+        private static async Task HandleExceptionAsync(HttpContext context, Exception ex, ILogger logger)
         {
             object errors = null;
 

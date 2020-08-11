@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using WebAPI;
 
 namespace WebApplicationTemplate
 {
@@ -19,9 +21,16 @@ namespace WebApplicationTemplate
         public static async Task Main(string[] args)
 #pragma warning restore IDE1006 // Naming Styles
         {
-
-            var host = CreateHostBuilder(args)
+            var conf = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
                 .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(conf)
+                .CreateLogger();
+
+            var host = CreateHostBuilder(args).Build();
+
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
             ConsoleLogInformation();
@@ -36,14 +45,18 @@ namespace WebApplicationTemplate
 
                 await SeedData.SeedDefaultUsersAsync(userManager);
                 await SeedData.SeedDataAsync(context);
+                Console.WriteLine("Starting API....");
+                await host.RunAsync();
             }
             catch (Exception ex)
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                logger.LogError(ex, "An error while starting the application");
             }
-            Console.WriteLine("Starting API....");
-            await host.RunAsync();
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args)

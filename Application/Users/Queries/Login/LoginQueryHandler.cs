@@ -27,7 +27,7 @@ namespace Application.Users.Queries.Login
                 return new UserDto
                 {
                     DisplayName = user.DisplayName,
-                    Token = _jwtGenerator.CreateToken(user),
+                    Token = await _jwtGenerator.CreateTokenAsync(user),
                     UserName = user.UserName,
                 };
             }

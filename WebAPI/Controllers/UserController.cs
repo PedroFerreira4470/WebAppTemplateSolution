@@ -9,19 +9,22 @@ namespace WebAPI.Controllers
 {
     public class UserController : BaseController
     {
+        /// <summary>
+        /// Login User
+        /// </summary>
+        /// <response code="200">Return Token</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> LoginAsync(LoginQuery query)
+        public async Task<ActionResult<UserDto>> LoginAsync([FromBody]LoginQuery query)
         {
-            return await Mediator.Send(query);
+            return Ok(await Mediator.Send(query));
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> RegisterAsync(RegisterCommand command)
+        public async Task<ActionResult<UserDto>> RegisterAsync([FromBody] RegisterCommand command)
         {
-            return await Mediator.Send(command);
-
+            return Ok(await Mediator.Send(command));
         }
 
         //[HttpGet]

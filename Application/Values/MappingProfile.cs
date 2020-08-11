@@ -9,7 +9,8 @@ namespace Application.Values
         public MappingProfile()
         {
             CreateMap<Value, ValuesListDto>()
-                .ForMember(destination => destination.Number, option => option.MapFrom(source => source.ValueNumber));
+                .ForMember(destination => destination.Number,
+                    option => option.MapFrom(source => source.ValueNumber));
         }
     }
 }

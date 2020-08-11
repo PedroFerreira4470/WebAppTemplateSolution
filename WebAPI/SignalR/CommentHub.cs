@@ -16,9 +16,9 @@ namespace WebAPI.SignalR
             _mediator = mediator;
         }
 
-        public async Task SendComment(/*mediator command (e.g Create message), */CancellationToken cancellationToken)
+        public async Task SendCommentAsync(/*mediator command (e.g Create message), */CancellationToken cancellationToken)
         {
-            var username = Context.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            //claim may be wrong var username = Context.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             _ = _mediator;
             //command.UserName = username;
 

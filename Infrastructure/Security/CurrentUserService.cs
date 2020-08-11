@@ -10,19 +10,19 @@ namespace Infrastructure.Security
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
             var httpcontext = httpContextAccessor.HttpContext;
-            UserId = httpcontext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            UserId = httpcontext?.User?.FindFirstValue("userId");
             UserName = httpcontext?.User?.FindFirstValue(ClaimTypes.Name);
             Email = httpcontext?.User?.FindFirstValue(ClaimTypes.Email);
             var t = httpcontext?.Request?.GetTypedHeaders();
             //TODO (should return globalization (e.g {pt-PT}) from header)
             //https://dotnetcoretutorials.com/2017/06/22/request-culture-asp-net-core/
-            UserLanguage = httpcontext?.Request?.GetTypedHeaders().AcceptLanguage.FirstOrDefault().ToString();
+            UserLanguage = httpcontext?.Request?.GetTypedHeaders().AcceptLanguage.FirstOrDefault()?.ToString();
         }
 
-        public string UserId { get; private set; }
-        public string UserName { get; private set; }
-        public string Email { get; private set; }
-        public string UserLanguage { get; private set; }
+        public string UserId { get;}
+        public string UserName { get; }
+        public string Email { get; }
+        public string UserLanguage { get; }
 
     }
 }
