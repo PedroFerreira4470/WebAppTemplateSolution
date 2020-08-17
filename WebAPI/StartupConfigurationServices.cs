@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Application;
+﻿using Application;
 using Infrastructure.Persistance;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using WebAPI.Versioning;
 
 namespace WebAPI
 {
@@ -19,6 +22,7 @@ namespace WebAPI
             services.AddHealthChecks().AddDbContextCheck<TemplateDbContext>();
             services.SetupCors();
             services.SetupSwaggerDoc();
+            services.SetupAPIVersioning();
 
 
             return services;
@@ -43,7 +47,11 @@ namespace WebAPI
         {
             services.AddSwaggerGen(x =>
             {
-                x.SwaggerDoc("v1", new OpenApiInfo {Title = "Template API", Version = "v1"});
+                x.SwaggerDoc("v1", new OpenApiInfo { Title = "Template API", Version = "v1" });
+                x.SwaggerDoc("v2", new OpenApiInfo { Title = "Template API", Version = "v2" });
+                x.ResolveConflictingActions(x => x.First());
+                x.OperationFilter<RemoveVersionFromParameter>();
+                x.DocumentFilter<ReplaceSwaggerVersionWithExactValueInPath>();
                 x.ExampleFilters();
                 x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -52,7 +60,7 @@ namespace WebAPI
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey
                 });
-                
+
                 x.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {new OpenApiSecurityScheme{Reference = new OpenApiReference
@@ -70,9 +78,19 @@ namespace WebAPI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 x.IncludeXmlComments(xmlPath);
 
-               
+
             });
             services.AddSwaggerExamplesFromAssemblyOf<Startup>();
+        }
+
+        private static void SetupAPIVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(o =>
+            {
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
+
         }
 
     }

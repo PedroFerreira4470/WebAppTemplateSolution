@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Identity;
 using Infrastructure.Persistance;
-using Infrastructure.Security;
+using Infrastructure.SecurityServices;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -24,13 +24,14 @@ namespace Infrastructure
         {
             services.AddScoped<IJwtGenerator, JwtTokenGeneratorService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IUriService, UriService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IIdentityService, IdentityService>();
-
             services.SetupDbContext(configuration);
             services.SetupAuthenticationWithJwt(configuration);
             services.SetupAuthorization(configuration);
             services.SetupIdentity();
+
 
             return services;
         }
@@ -132,6 +133,10 @@ namespace Infrastructure
             });
 
             services.AddScoped<ITemplateDbContext>(provider => provider.GetService<TemplateDbContext>());
+        }
+        private static void SetupContextAccessor(this IServiceCollection services)
+        {
+            services.AddHttpContextAccessor();
         }
 
         private static void SetupIdentity(this IServiceCollection services)

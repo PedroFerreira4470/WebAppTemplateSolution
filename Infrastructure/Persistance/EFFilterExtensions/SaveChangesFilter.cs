@@ -43,8 +43,6 @@ namespace Infrastructure.Persistance.EFFilterExtensions
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Property("IsActive").CurrentValue = true;
-                    break;
                 case EntityState.Modified:
                     entry.Property("IsActive").CurrentValue = true;
                     break;

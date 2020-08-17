@@ -1,8 +1,8 @@
-﻿using Application.Common.HelperExtensions;
+﻿using Application.Common.MethodExtensions;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Application.UnitTest.HelperExtensions
+namespace Application.UnitTests.HelperExtensions
 {
     using static StringExtensions;
     public class StringExtensionsTests

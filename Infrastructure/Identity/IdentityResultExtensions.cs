@@ -1,6 +1,7 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Contracts.V1.ResponseType;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
+
 
 namespace Infrastructure.Identity
 {

@@ -4,16 +4,15 @@ using Infrastructure.Persistance.Seed;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using WebAPI;
 
-namespace WebApplicationTemplate
+namespace WebAPI
 {
     public class Program
     {
@@ -80,7 +79,7 @@ namespace WebApplicationTemplate
 ---------------------------------------------------"
             );
 
-            Console.WriteLine($"Welcome To {nameof(WebApplicationTemplate)}, have fun :)");
+            Console.WriteLine($"Welcome To {nameof(WebAPI)}, have fun :)");
         }
 
     }

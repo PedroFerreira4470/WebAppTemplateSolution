@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Contracts.V1.ResponseType;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistance.Configurations
+namespace Infrastructure.Persistance.EntitiesConfiguration
 {
     internal class OrderConfiguration : IEntityTypeConfiguration<Order>
     {

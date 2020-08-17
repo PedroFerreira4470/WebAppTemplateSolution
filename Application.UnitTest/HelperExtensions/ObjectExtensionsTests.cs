@@ -1,10 +1,8 @@
-﻿
-using Application.Common.HelperExtensions;
+﻿using Application.Common.MethodExtensions;
 using FluentAssertions;
 using NUnit.Framework;
 
-
-namespace Application.UnitTest.HelperExtensions
+namespace Application.UnitTests.HelperExtensions
 {
     using static ObjectExtensions;
     public class ObjectExtensionsTests
@@ -20,7 +18,7 @@ namespace Application.UnitTest.HelperExtensions
         public void IsIn_ShouldGetTrue_WhenIsInsideArray(int element, params int[] array)
         {
             //act
-            var containsElement = element.IsIn(array);
+            var containsElement = element.IsOneOf(array);
             //Assert
             containsElement.Should().BeTrue();
         }
@@ -30,7 +28,7 @@ namespace Application.UnitTest.HelperExtensions
         public void IsIn_ShouldGetFalse_WhenIsNotInsideArray(int element, params int[] array)
         {
             //act
-            var containsElement = element.IsIn(array);
+            var containsElement = element.IsOneOf(array);
             //Assert
             containsElement.Should().BeFalse();
         }

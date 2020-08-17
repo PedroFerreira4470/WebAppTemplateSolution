@@ -1,9 +1,9 @@
 ﻿using Application.Common.Behaviour;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using FluentValidation;
 
 namespace Application
 {

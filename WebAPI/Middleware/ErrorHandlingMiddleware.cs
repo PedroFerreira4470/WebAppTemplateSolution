@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Net;
-using System.Text.Json;
 using System.Threading.Tasks;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace WebAPI.Middleware
 {
@@ -29,6 +30,7 @@ namespace WebAPI.Middleware
             {
                 await HandleExceptionAsync(context, ex, _logger);
             }
+
         }
 
         private static async Task HandleExceptionAsync(HttpContext context, Exception ex, ILogger logger)
@@ -38,13 +40,18 @@ namespace WebAPI.Middleware
             switch (ex)
             {
                 case RestException re:
-                    logger.LogError(re, $"REST ERROR: {re.Errors}");
+                    var error = JsonSerializer.Serialize(re.Errors);
+                    logger.LogError(re, "Error: {@Status} {@Error}", re.Code, error);
                     errors = re.Errors;
                     context.Response.StatusCode = (int)re.Code;
                     break;
-                case Exception e:
-                    logger.LogError(e, $"SERVER ERROR");
-                    errors = String.IsNullOrWhiteSpace(e.Message) ? "Something went wrong" : e.Message;
+                case { } e:
+                    logger.LogError(e, "Uncaught Internal Error");
+                    errors = new Dictionary<string, string[]>
+                    {
+                        {"Internal Error",  new [] {String.IsNullOrWhiteSpace(e.Message) ? "Something went wrong!" : e.Message } }
+                    };
+
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }

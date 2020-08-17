@@ -4,13 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
     public class BaseController : ControllerBase
     {
         private IMediator _mediator;
-        protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
     }
 }

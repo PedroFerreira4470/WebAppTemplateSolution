@@ -42,7 +42,8 @@ namespace WebAPI
 
             app.UseSwaggerUI(option =>
             {
-                option.SwaggerEndpoint("v1/swagger.json","our API");
+                option.SwaggerEndpoint("v1/swagger.json", "API V1");
+                option.SwaggerEndpoint("v2/swagger.json", "API V2");
             });
 
             app.UseHealthChecks("/health");

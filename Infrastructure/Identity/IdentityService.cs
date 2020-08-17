@@ -1,6 +1,6 @@
-﻿using Application.Common.CustomExceptions;
+﻿using Application.Common.Contracts.V1.ResponseType;
+using Application.Common.CustomExceptions;
 using Application.Common.Interfaces;
-using Application.Common.Models;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -29,12 +29,12 @@ namespace Infrastructure.Identity
         {
             if (_userManager.Users.Any(p => p.Email == user.Email))
             {
-                throw new RestException(HttpStatusCode.BadRequest, "Email Already Exist");
+                // throw new RestException(HttpStatusCode.BadRequest, "Email Already Exist");
             }
 
             if (_userManager.Users.Any(p => p.UserName == user.UserName))
             {
-                throw new RestException(HttpStatusCode.BadRequest, "Username Already Exist");
+                //throw new RestException(HttpStatusCode.BadRequest, "Username Already Exist");
             }
 
             var result = await _userManager.CreateAsync(user, password);

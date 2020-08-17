@@ -1,6 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Application.Users.Commands.Register;
-using Application.Users.Queries.Login;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 using System.Threading;
@@ -25,16 +23,10 @@ namespace Application.Common.Behaviour
             var userId = _currentUserService.UserId ?? string.Empty;
             var userName = _currentUserService.UserName ?? string.Empty;
 
-            if (requestName == nameof(LoginQuery) || requestName == nameof(RegisterCommand))
-            {
-                _logger.LogInformation("Request: {Name} {@UserId} {@UserName}",
-                        requestName, userId, userName);
-            }
-            else
-            {
-                _logger.LogInformation("Request: {Name} {@UserId} {@UserName} {@Request}",
-                        requestName, userId, userName, request);
-            }
+
+            _logger.LogInformation("Request: {Name} {@UserId} {@UserName} {@Request}",
+                    requestName, userId, userName, request);
+
 
 
             return Task.CompletedTask;

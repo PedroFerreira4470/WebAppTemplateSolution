@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Values\Queries\" />
+    <Folder Include="V1\Values\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

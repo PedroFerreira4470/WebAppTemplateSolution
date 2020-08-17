@@ -11,7 +11,6 @@ namespace Infrastructure.Persistance.Seed
 {
     public static class SeedData
     {
-        private static readonly Dictionary<int, User> _users = new Dictionary<int, User>();
         private static readonly Dictionary<int, Order> _orders = new Dictionary<int, Order>();
         private static readonly Dictionary<int, Customer> _customers = new Dictionary<int, Customer>();
         public static async Task SeedDataAsync(ITemplateDbContext context)

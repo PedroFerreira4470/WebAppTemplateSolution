@@ -1,9 +1,9 @@
-﻿using Application.Common.HelperExtensions;
+﻿using Application.Common.MethodExtensions;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
 
-namespace Application.UnitTest.HelperExtensions
+namespace Application.UnitTests.HelperExtensions
 {
     public class JsonExtensionsTests
     {

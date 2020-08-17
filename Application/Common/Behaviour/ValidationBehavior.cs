@@ -1,7 +1,10 @@
-﻿using FluentValidation;
+﻿using Application.Common.CustomExceptions;
+using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,12 +29,31 @@ namespace Application.Common.Behaviour
                 var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
                 var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
-                if (failures.Count != 0)
+                if (failures.Any())
                 {
-                    throw new ValidationException(failures);
+                    throw new RestException(HttpStatusCode.BadRequest, FormatFailures(failures));
                 }
             }
             return await next();
         }
+        private static Dictionary<string, string[]> FormatFailures(IEnumerable<ValidationFailure> failures)
+        {
+            var errors = new Dictionary<string, string[]>();
+
+            var failureGroups = failures
+                .GroupBy(e => e.PropertyName, e => e.ErrorMessage);
+
+            foreach (var failureGroup in failureGroups)
+            {
+                var propertyName = failureGroup.Key;
+                var propertyFailures = failureGroup.ToArray();
+
+                errors.Add(propertyName, propertyFailures);
+            }
+
+            return errors;
+        }
     }
+
+
 }
