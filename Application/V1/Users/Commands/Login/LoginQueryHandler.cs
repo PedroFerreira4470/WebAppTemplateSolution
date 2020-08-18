@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.V1.Users.Commands.Login
 {
-    public class LoginQueryHandler : IRequestHandler<LoginQuery, Response<LoginResponseDto>>
+    public class LoginQueryHandler : IRequestHandler<LoginQuery, Response<LoginDto>>
     {
         private readonly IJwtGenerator _jwtGenerator;
         private readonly IIdentityService _identityService;
@@ -18,14 +18,14 @@ namespace Application.V1.Users.Commands.Login
             _jwtGenerator = jwtGenerator;
             _identityService = identityService;
         }
-        public async Task<Response<LoginResponseDto>> Handle(LoginQuery request, CancellationToken cancellationToken)
+        public async Task<Response<LoginDto>> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
             var (user, result) = await _identityService.SignInAsync(request.Email, request.Password);
 
             if (result.Succeeded)
             {
                 //generate Token
-                return new Response<LoginResponseDto>(new LoginResponseDto
+                return new Response<LoginDto>(new LoginDto
                 {
                     DisplayName = user.DisplayName,
                     Token = await _jwtGenerator.CreateTokenAsync(user),

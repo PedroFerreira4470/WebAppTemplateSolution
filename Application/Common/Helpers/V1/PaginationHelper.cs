@@ -1,11 +1,13 @@
-﻿using Application.Common.Contracts.V1.ResponseType;
+﻿using Application.Common.Contracts.V1.QueryTypes;
+using Application.Common.Contracts.V1.ResponseType;
 using Application.Common.Interfaces;
 using Application.Common.MethodExtensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
 
-namespace Application.Common.Helpers
+namespace Application.Common.Helpers.V1
 {
     public static class PaginationHelper
     {
@@ -41,8 +43,12 @@ namespace Application.Common.Helpers
         private static string GetPagedPath(int pageNumber, int pageSize, IUriService uri)
         {
             var absolutePath = uri.GetAbsolutePath();
-            var modifiedUri = QueryHelpers.AddQueryString(absolutePath, nameof(pageNumber), pageNumber.ToString());
-            modifiedUri = QueryHelpers.AddQueryString(modifiedUri, nameof(pageSize), pageSize.ToString());
+            var modifiedUri = QueryHelpers.AddQueryString(absolutePath,
+                AttributeExtension.GetAttributeFrom<PaginationQuery, FromQueryAttribute>(nameof(PaginationQuery.PageNumber)).Name,
+                pageNumber.ToString());
+            modifiedUri = QueryHelpers.AddQueryString(modifiedUri,
+                AttributeExtension.GetAttributeFrom<PaginationQuery, FromQueryAttribute>(nameof(PaginationQuery.PageSize)).Name,
+                pageSize.ToString());
             return modifiedUri;
         }
     }

@@ -1,17 +1,13 @@
-﻿namespace Application.Common.Contracts.V1.QueryTypes
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Application.Common.Contracts.V1.QueryTypes
 {
     public class PaginationQuery
     {
-        public PaginationQuery()
-        {
 
-        }
-        public PaginationQuery(int pageNumber, int pageSize)
-        {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
-        }
+        [FromQuery(Name = "pageNumber")]
         public int PageNumber { get; set; }
+        [FromQuery(Name = "pageSize")]
         public int PageSize { get; set; }
     }
 }

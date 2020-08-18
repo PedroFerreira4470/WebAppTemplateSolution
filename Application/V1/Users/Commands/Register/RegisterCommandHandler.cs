@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.V1.Users.Commands.Register
 {
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Response<RegisterCommandResponseDto>>
+    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Response<RegisterCommandDto>>
     {
         private readonly IIdentityService _identityService;
         private readonly IJwtGenerator _jwt;
@@ -20,7 +20,7 @@ namespace Application.V1.Users.Commands.Register
             _identityService = identityService;
             _jwt = jwt;
         }
-        public async Task<Response<RegisterCommandResponseDto>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Response<RegisterCommandDto>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
 
             var user = new User
@@ -37,7 +37,7 @@ namespace Application.V1.Users.Commands.Register
                 throw new RestException(HttpStatusCode.BadRequest, "RegisterErrors", result.Errors);
             }
 
-            return new Response<RegisterCommandResponseDto>(new RegisterCommandResponseDto
+            return new Response<RegisterCommandDto>(new RegisterCommandDto
             {
                 DisplayName = request.DisplayName,
                 UserName = request.UserName,

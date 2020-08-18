@@ -1,6 +1,6 @@
-﻿namespace Application.V1.Users.Commands.Login
+﻿namespace Application.V1.Users.Commands.Register
 {
-    public class LoginResponseDto
+    public class RegisterCommandDto
     {
         public string UserName { get; set; }
         public string DisplayName { get; set; }

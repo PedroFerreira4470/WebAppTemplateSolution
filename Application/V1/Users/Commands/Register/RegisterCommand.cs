@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.V1.Users.Commands.Register
 {
-    public class RegisterCommand : IRequest<Response<RegisterCommandResponseDto>>
+    public class RegisterCommand : IRequest<Response<RegisterCommandDto>>
     {
 
         public string DisplayName { get; set; }

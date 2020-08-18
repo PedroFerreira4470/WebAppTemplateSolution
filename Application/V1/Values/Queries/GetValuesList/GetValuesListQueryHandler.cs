@@ -10,11 +10,11 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using static Application.Common.Helpers.PaginationHelper;
+using static Application.Common.Helpers.V1.PaginationHelper;
 
 namespace Application.V1.Values.Queries.GetValuesList
 {
-    public class GetValuesListQueryHandler : IRequestHandler<GetValuesListQuery, PagedResponse<ValuesListResponseDto>>
+    public class GetValuesListQueryHandler : IRequestHandler<GetValuesListQuery, PagedResponse<GetValuesListDto>>
     {
         private readonly ITemplateDbContext _context;
         private readonly IMapper _mapper;
@@ -27,13 +27,13 @@ namespace Application.V1.Values.Queries.GetValuesList
             _uriService = uriService;
         }
 
-        public async Task<PagedResponse<ValuesListResponseDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResponse<GetValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
         {
             var skip = ((request.PageNumber - 1) * request.PageSize);
             var take = request.PageSize;
 
             var result = await _context.Values
-                .ProjectTo<ValuesListResponseDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetValuesListDto>(_mapper.ConfigurationProvider)
                 .Skip(skip)
                 .Take(take)
                 .ToListAsync(cancellationToken);

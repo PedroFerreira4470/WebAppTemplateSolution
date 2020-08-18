@@ -37,8 +37,8 @@ namespace Infrastructure
         }
         private static void SetupAuthenticationWithJwt(this IServiceCollection services, IConfiguration configuration)
         {
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"] /*TODO use user secrets*/));
+            //token in user secrets (reason should not be shared)
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

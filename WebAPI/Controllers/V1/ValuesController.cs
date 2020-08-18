@@ -1,5 +1,4 @@
-﻿using Application.Common.Contracts.V1.QueryTypes;
-using Application.Common.Contracts.V1.ResponseType;
+﻿using Application.Common.Contracts.V1.ResponseType;
 using Application.Common.Interfaces;
 using Application.V1.Values.Commands.CreateValue;
 using Application.V1.Values.Queries.GetValuesList;
@@ -21,17 +20,14 @@ namespace WebAPI.Controllers.V1
         /// <param name="paginationQuery"> A parameter to the method, and what it represents.</param>
         /// <returns>All Values from the system</returns>
         /// <response code="200">Return all Values in the System</response>
-        [HttpGet]
+        [HttpGet("{userId:int:min(1)}")]
+        //[HttpGet(teste/{userId?:int:min(1)})] :regex(..):minLength(1):alpha other... router .net core
         [AllowAnonymous]
-        [ProducesResponseType(typeof(PagedResponse<ValuesListResponseDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(PagedResponse<GetValuesListDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(IRestExceptionModel), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(IRestExceptionModel), (int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<PagedResponse<ValuesListResponseDto>>> GetAllAsync([FromQuery] PaginationQuery paginationQuery)
-        {
-            var route = Request.Path.Value;
-            return await Mediator
-                .Send(new GetValuesListQuery(paginationQuery));
-        }
+        public async Task<ActionResult<PagedResponse<GetValuesListDto>>> GetAllAsync([FromRoute] int userId, [FromQuery] GetValuesListQuery paginationQuery = null)
+            => await Mediator.Send(paginationQuery);
 
         /// <summary>
         /// A high-level summary of what the method/class/field is or does.
@@ -49,8 +45,6 @@ namespace WebAPI.Controllers.V1
         [ProducesResponseType(typeof(Response<int>), 200)]
         [ProducesResponseType(typeof(IRestExceptionModel), 500)]
         public async Task<ActionResult<Response<int>>> CreateValueAsync([FromBody] CreateValueCommand command)
-        {
-            return await Mediator.Send(command);
-        }
+            => await Mediator.Send(command);
     }
 }
