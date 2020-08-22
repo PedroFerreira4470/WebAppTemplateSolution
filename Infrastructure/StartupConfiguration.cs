@@ -134,10 +134,10 @@ namespace Infrastructure
 
             services.AddScoped<ITemplateDbContext>(provider => provider.GetService<TemplateDbContext>());
         }
-        private static void SetupContextAccessor(this IServiceCollection services)
-        {
-            services.AddHttpContextAccessor();
-        }
+        //private static void SetupContextAccessor(this IServiceCollection services)
+        //{
+        //    services.AddHttpContextAccessor();
+        //}
 
         private static void SetupIdentity(this IServiceCollection services)
         {

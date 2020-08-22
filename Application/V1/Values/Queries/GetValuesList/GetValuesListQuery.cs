@@ -1,6 +1,8 @@
 ﻿using Application.Common.Contracts.V1.QueryTypes;
 using Application.Common.Contracts.V1.ResponseType;
+using AutoMapper.Configuration.Annotations;
 using MediatR;
+using System.Runtime.Serialization;
 
 namespace Application.V1.Values.Queries.GetValuesList
 {

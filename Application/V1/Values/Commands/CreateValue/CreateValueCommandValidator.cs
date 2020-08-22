@@ -21,8 +21,6 @@ namespace Application.V1.Values.Commands.CreateValue
         }
 
         public async Task<bool> BeUniqueValueAsync(int valueNumber, CancellationToken cancellationToken)
-        {
-            return !await _context.Values.AnyAsync(v => v.ValueNumber == valueNumber, cancellationToken);
-        }
+            => await _context.Values.AnyAsync(v => v.ValueNumber == valueNumber, cancellationToken) == false;
     }
 }

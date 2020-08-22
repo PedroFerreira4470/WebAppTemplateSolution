@@ -29,7 +29,7 @@ namespace Application.V1.Values.Queries.GetValuesList
 
         public async Task<PagedResponse<GetValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
         {
-            var skip = ((request.PageNumber - 1) * request.PageSize);
+            var skip = (request.PageNumber - 1) * request.PageSize;
             var take = request.PageSize;
 
             var result = await _context.Values

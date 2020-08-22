@@ -46,7 +46,7 @@ namespace Infrastructure.Identity
         {
             var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 
-            if (user != null)
+            if (user is not null)
             {
                 return await DeleteUserAsync(user);
             }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.V1
 {
-    public class UserController : BaseV1Controller
+    public class UserController : BaseControllerV1
     {
         /// <summary>
         /// Login User
@@ -15,8 +15,8 @@ namespace WebAPI.Controllers.V1
         /// <response code="200">Return User dto with Token</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<Response<LoginDto>>> LoginAsync([FromBody] LoginQuery query)
-            => await Mediator.Send(query);
+        public async Task<ActionResult> LoginAsync([FromBody] LoginQuery query)
+            => Ok(await Mediator.Send(query));
 
         /// <summary>
         /// Register user in the system
@@ -24,8 +24,8 @@ namespace WebAPI.Controllers.V1
         /// <response code="200">Return Token</response>
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<Response<RegisterCommandDto>>> RegisterAsync([FromBody] RegisterCommand command)
-            => await Mediator.Send(command);
+        public async Task<ActionResult> RegisterAsync([FromBody] RegisterCommand command)
+            => Ok(await Mediator.Send(command));
 
         //[HttpGet]
         //public async Task<ActionResult<UserDto>> CurrentUser()

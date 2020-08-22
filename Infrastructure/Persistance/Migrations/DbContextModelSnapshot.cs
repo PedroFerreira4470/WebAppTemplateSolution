@@ -183,7 +183,7 @@ namespace Infrastructure.Persistance.Migrations
 
             modelBuilder.Entity("Domain.Entities.Value", b =>
                 {
-                    b.Property<int>("ValueId")
+                    b.Property<int>("ValueNumber")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -208,7 +208,7 @@ namespace Infrastructure.Persistance.Migrations
                     b.Property<int>("ValueNumber")
                         .HasColumnType("int");
 
-                    b.HasKey("ValueId");
+                    b.HasKey("ValueNumber");
 
                     b.ToTable("Values");
                 });

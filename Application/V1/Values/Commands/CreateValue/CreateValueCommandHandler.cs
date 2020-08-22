@@ -39,7 +39,7 @@ namespace Application.V1.Values.Commands.CreateValue
 
             //Fire and forget (Only use it if you 101% you sure is what you want)
             //_ = Task.Run(() => _mediator.Publish(new NotificationMessage("pedrodiogo4470@gmail.com", "pedrodiogo4470@gmail.com", "Body here", "Subject")));
-            return new Response<int>(entity.ValueNumber);
+            return new Response<int>(entity.ValueId);
         }
     }
 }
