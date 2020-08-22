@@ -7,31 +7,16 @@ namespace Application.Common.MethodExtensions
 {
     public static class ObjectExtensions
     {
-        public static bool IsNotTrue(this bool source)
-        {
-            return source == false;
-        }
-        public static bool IsTrue(this bool source)
-        {
-            return source == true;
-        }
-        public static bool IsOneOf<T>(this T source, params T[] list)
-        {
-            if (source is null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            if (list is null)
-            {
-                throw new ArgumentNullException("list");
-            }
-            if (list.Any() == false)
-            {
-                return false;
-            }
+        public static bool IsNull<T>(this T r) where T : class, new() => r is null;
+        public static bool IsNullObject<T>(T r) where T : class, new() => r is null;
+        public static bool IsNotNullObject<T>(T r) where T : class, new() => r is not null;
+        public static bool IsNotNull<T>(this T r) where T : class, new() => r is not null;
+        public static bool IsNotTrue(this bool source) => source == false;
+        public static bool IsTrue(this bool source) => source == true;
 
-            return list.Contains(source);
-        }
+        public static bool IsNotEmpty<T>(this IEnumerable<T> r) => r.Any();
+        public static bool IsOneOf<T>(this T source, params T[] list)
+            => source is not null && list is not null && list.Any() && list.Contains(source);
 
         //Check to see if a obj is between two dates Inclusive.
         public static bool IsBetween<T>(this T actual, T lower, T upper, bool inclusive = true) where T : IComparable<T>

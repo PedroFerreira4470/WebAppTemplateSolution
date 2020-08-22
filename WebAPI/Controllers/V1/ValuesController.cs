@@ -14,8 +14,8 @@ namespace WebAPI.Controllers.V1
     public class ValuesController : BaseControllerV1
     {
 
-        [HttpGet("{valueId:int}")]
-        public ActionResult GetValue(int valueId) => NoContent();
+        //[HttpGet("{valueId:int}")]
+        //public ActionResult GetValue(int valueId) => NoContent();
 
         //[HttpGet(../{userId:int:min(1)})] :regex(..):minLength(1):alpha other... router .net core
         //optional route params are not allowed so you need to create other controller or use fromquery

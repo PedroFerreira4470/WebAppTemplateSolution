@@ -11,10 +11,9 @@ namespace Application.Common.Helpers.V1
 {
     public static class PaginationHelper
     {
-
         public static PagedResponse<T> CreatePagedResponse<T>(IEnumerable<T> pagedData, int pageSize, int pageNumber, int totalRecords, IUriService uriService)
         {
-            var totalPages = (totalRecords / (double)pageSize);
+            var totalPages = totalRecords / (double)pageSize;
             var lastPageNumber = Convert.ToInt32(Math.Ceiling(totalPages));
             var previewsPageNumber = pageNumber - 1;
             var nextPageNumber = pageNumber + 1;

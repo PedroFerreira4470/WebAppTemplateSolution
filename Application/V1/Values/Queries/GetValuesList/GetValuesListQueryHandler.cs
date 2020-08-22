@@ -11,44 +11,51 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using static Application.Common.Helpers.V1.PaginationHelper;
+using Application.Common.MethodExtensions;
 
 namespace Application.V1.Values.Queries.GetValuesList
 {
-    public class GetValuesListQueryHandler : IRequestHandler<GetValuesListQuery, PagedResponse<GetValuesListDto>>
+    public class GetValuesListQueryHandler : 
+        IRequestHandler<GetValuesListQuery, PagedResponse<GetValuesListDto>>
     {
         private readonly ITemplateDbContext _context;
         private readonly IMapper _mapper;
         private readonly IUriService _uriService;
 
-        public GetValuesListQueryHandler(ITemplateDbContext context, IMapper mapper, IUriService uriService)
+        public GetValuesListQueryHandler(ITemplateDbContext context,
+            IMapper mapper,
+            IUriService uriService)
         {
             _context = context;
             _mapper = mapper;
             _uriService = uriService;
         }
 
-        public async Task<PagedResponse<GetValuesListDto>> Handle(GetValuesListQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResponse<GetValuesListDto>> Handle(
+            GetValuesListQuery request,
+            CancellationToken cancellationToken)
         {
             var skip = (request.PageNumber - 1) * request.PageSize;
             var take = request.PageSize;
 
-            var result = await _context.Values
+            var resultList = await _context.Values
                 .ProjectTo<GetValuesListDto>(_mapper.ConfigurationProvider)
                 .Skip(skip)
                 .Take(take)
                 .ToListAsync(cancellationToken);
 
-
-            if (result is null)
+            if (resultList.IsNull())
             {
                 throw new RestException(HttpStatusCode.NotFound, nameof(Value), $"{nameof(Value)} not found");
             }
 
+
             var totalRecords = await _context.Values.CountAsync(cancellationToken);
 
-            return CreatePagedResponse(result, request.PageSize, request.PageNumber, totalRecords, _uriService);
+            return CreatePagedResponse(resultList, request.PageSize, request.PageNumber, totalRecords, _uriService);
 
         }
+
     }
 }
 
