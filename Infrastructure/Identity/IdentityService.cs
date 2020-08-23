@@ -4,6 +4,7 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -29,12 +30,12 @@ namespace Infrastructure.Identity
         {
             if (_userManager.Users.Any(p => p.Email == user.Email))
             {
-                // throw new RestException(HttpStatusCode.BadRequest, "Email Already Exist");
+                return (new Result(false, new List<string> { "Email Already Exist" }), null);
             }
 
             if (_userManager.Users.Any(p => p.UserName == user.UserName))
             {
-                //throw new RestException(HttpStatusCode.BadRequest, "Username Already Exist");
+                return (new Result(false, new List<string> { "Username Already Exist" }), null);
             }
 
             var result = await _userManager.CreateAsync(user, password);
@@ -67,7 +68,7 @@ namespace Infrastructure.Identity
 
             if (user is null)
             {
-                throw new RestException(HttpStatusCode.Unauthorized);
+                //throw new RestException(HttpStatusCode.Unauthorized);
             }
 
             var signInResult = await _signInManager.CheckPasswordSignInAsync(user, password, false);
