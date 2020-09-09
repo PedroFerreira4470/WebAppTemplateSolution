@@ -20,13 +20,6 @@ namespace WebAPI
         public static async Task Main(string[] args)
 #pragma warning restore IDE1006 // Naming Styles
         {
-            var conf = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(conf)
-                .CreateLogger();
 
             var host = CreateHostBuilder(args).Build();
 
@@ -59,8 +52,7 @@ namespace WebAPI
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-            .UseSerilog()
-            .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+            .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>()).UseSerilog((hostingContext, config) => config.ReadFrom.Configuration(hostingContext.Configuration));
 
         private static void ConsoleLogInformation()
         {
