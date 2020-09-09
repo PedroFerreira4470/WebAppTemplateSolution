@@ -32,6 +32,7 @@ namespace Application.V1.Users.Commands.Login
                     UserName = user.UserName,
                 });
             }
+
             throw new RestException(HttpStatusCode.Unauthorized);
         }
     }

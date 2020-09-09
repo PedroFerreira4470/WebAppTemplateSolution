@@ -1,4 +1,5 @@
 ﻿using Application.Common.CustomExceptions;
+using Application.Common.MethodExtensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -57,7 +58,6 @@ namespace WebAPI.Middleware
                             GetErrorMessage(e.Message, _env.IsDevelopment())
                         } }
                     };
-
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }
@@ -70,6 +70,6 @@ namespace WebAPI.Middleware
         }
 
         private string GetErrorMessage(string message, bool isDevelopment)
-            => isDevelopment && string.IsNullOrWhiteSpace(message) == false ? message : "Something unexpectable went wrong!";
+            => isDevelopment && message.IsNotNullOrEmpty() ? message : "Something unexpectable went wrong!";
     }
 }

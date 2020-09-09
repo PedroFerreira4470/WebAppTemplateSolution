@@ -7,5 +7,6 @@ namespace WebAPI.Controllers.V1
     [ApiExplorerSettings(GroupName = "v1")]
     public class BaseControllerV1 : BaseController
     {
+       
     }
 }

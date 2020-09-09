@@ -1,6 +1,7 @@
 ﻿using Application.Common.Contracts.V1.ResponseType;
 using Application.Common.Interfaces;
 using Application.V1.Values.Commands.CreateValue;
+using Application.V1.Values.Commands.EditValue;
 using Application.V1.Values.Queries.GetValuesList;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -35,7 +36,13 @@ namespace WebAPI.Controllers.V1
         [ProducesResponseType(typeof(IRestExceptionModel), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(IRestExceptionModel), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult> GetAllAsync([FromRoute] int userId, [FromQuery] GetValuesListQuery paginationQuery = null)
-            => Ok(await Mediator.Send(paginationQuery));
+        {
+            if (userId != paginationQuery.UserId)
+            {
+                return BadRequest();
+            }
+            return Ok(await Mediator.Send(paginationQuery));
+        }
 
         /// <summary>
         /// A high-level summary of what the method/class/field is or does.
@@ -52,7 +59,7 @@ namespace WebAPI.Controllers.V1
         [HttpPost("create")]
         [ProducesResponseType(typeof(Response<int>), 201)]
         [ProducesResponseType(typeof(IRestExceptionModel), 500)]
-        public async Task<ActionResult> CreateValueAsync([FromBody] CreateValueCommand command)
+        public async Task<ActionResult> CreateAsync([FromBody] CreateValueCommand command)
         {
             var result = await Mediator.Send(command);
             return StatusCode((int)HttpStatusCode.Created, result);
@@ -62,6 +69,15 @@ namespace WebAPI.Controllers.V1
           //string id = // some new object id
           //var newPath = new Uri(HttpContext.Request.Path, id);
           //return this.Created(newPath);
+
+
+        [HttpPut("{id:int:min(1)}")]
+        public async Task<ActionResult> EditAsync([FromRoute] int id, [FromBody] EditValueCommand command)
+        {
+            command.Id = id;
+            await Mediator.Send(command);
+            return NoContent();
+        }
 
     }
 }

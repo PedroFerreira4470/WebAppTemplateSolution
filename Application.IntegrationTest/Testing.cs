@@ -31,7 +31,6 @@ namespace Application.IntegrationTests
         [OneTimeSetUp]
         public void RunBeforeAnyTests()
         {
-            var t = Directory.GetCurrentDirectory();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettingstests.json", true, true)

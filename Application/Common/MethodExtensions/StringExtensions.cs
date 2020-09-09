@@ -16,5 +16,14 @@ namespace Application.Common.MethodExtensions
             }
             return Regex.IsMatch(input, _emailPattern, RegexOptions.IgnoreCase);
         }
+
+        public static bool IsNotNullOrEmpty(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -68,7 +68,7 @@ namespace Infrastructure.Identity
 
             if (user is null)
             {
-                //throw new RestException(HttpStatusCode.Unauthorized);
+                throw new RestException(HttpStatusCode.Unauthorized);
             }
 
             var signInResult = await _signInManager.CheckPasswordSignInAsync(user, password, false);

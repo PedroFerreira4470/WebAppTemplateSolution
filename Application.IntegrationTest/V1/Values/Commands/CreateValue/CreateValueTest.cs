@@ -1,4 +1,5 @@
-﻿using Application.V1.Values.Commands.CreateValue;
+﻿using Application.Common.CustomExceptions;
+using Application.V1.Values.Commands.CreateValue;
 using FluentAssertions;
 using FluentValidation;
 using NUnit.Framework;
@@ -21,23 +22,7 @@ namespace Application.IntegrationTests.V1.Values.Commands.CreateValue
 
             FluentActions
                 .Invoking(() => SendAsync(command))
-                .Should().Throw<ValidationException>();
-        }
-
-
-        [Test]
-        public async Task ShouldRequiredNamingAsync()
-        {
-            var userId = await RunAsDefaultUserAsync();
-
-            var command = new CreateValueCommand
-            {
-                ValueNumber = 12
-            };
-
-            var t = FluentActions
-                .Invoking(() => SendAsync(command))
-                .Should().Throw<ValidationException>();
+                .Should().Throw<RestException>();
         }
 
 

@@ -58,15 +58,9 @@ namespace WebAPI
             }
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                        .UseSerilog()
-                        .ConfigureWebHostDefaults(webBuilder =>
-                        {
-                            webBuilder.UseStartup<Startup>();
-                        });
-        }
+        private static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
+            .UseSerilog()
+            .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
 
         private static void ConsoleLogInformation()
         {

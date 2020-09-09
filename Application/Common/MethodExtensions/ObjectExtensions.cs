@@ -7,6 +7,7 @@ namespace Application.Common.MethodExtensions
 {
     public static class ObjectExtensions
     {
+
         public static bool IsNull<T>(this T r) where T : class, new() => r is null;
         public static bool IsNullObject<T>(T r) where T : class, new() => r is null;
         public static bool IsNotNullObject<T>(T r) where T : class, new() => r is not null;
@@ -15,6 +16,8 @@ namespace Application.Common.MethodExtensions
         public static bool IsTrue(this bool source) => source == true;
 
         public static bool IsNotEmpty<T>(this IEnumerable<T> r) => r.Any();
+
+        public static bool IsEmpty<T>(this IEnumerable<T> r) => r.Any() == false;
         public static bool IsOneOf<T>(this T source, params T[] list)
             => source is not null && list is not null && list.Any() && list.Contains(source);
 

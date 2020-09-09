@@ -15,7 +15,7 @@ namespace WebAPI.Controllers.V1
         /// <response code="200">Return User dto with Token</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult> LoginAsync([FromBody] LoginQuery query)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginQuery query)
             => Ok(await Mediator.Send(query));
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace WebAPI.Controllers.V1
         /// <response code="200">Return Token</response>
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult> RegisterAsync([FromBody] RegisterCommand command)
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterCommand command)
             => Ok(await Mediator.Send(command));
 
         //[HttpGet]
